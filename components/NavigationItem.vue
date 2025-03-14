@@ -1,9 +1,7 @@
 <template>
   <nav class="bg-blue-800 text-white p-4">
     <div class="container mx-auto flex justify-between items-center">
-      <router-link to="/" class="text-lg font-bold"
-        >Gamblers Future</router-link
-      >
+      <span to="/" class="text-lg font-bold">Gamblers Future</span>
 
       <button @click="toggleMenu" class="md:hidden block">
         <svg
@@ -27,9 +25,7 @@
         class="md:block md:space-x-6 md:ml-auto"
       >
         <li v-for="link in navLinks" :key="link.path">
-          <router-link :to="link.path" class="hover:underline">{{
-            link.name
-          }}</router-link>
+          <span :to="link.path" class="hover:underline">{{ link.name }}</span>
         </li>
       </ul>
     </div>

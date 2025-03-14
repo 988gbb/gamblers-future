@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <NavigationItem />
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
-    <Footer />
-  </div>
+  <NavigationItem />
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
+  <Footer />
 </template>
