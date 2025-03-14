@@ -1,3 +1,4 @@
 <template>
   <HeroBanner />
+  <BestPerformSection />
 </template>
