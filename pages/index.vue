@@ -1,3 +1,3 @@
 <template>
-  <div>ALeksa</div>
+  <HeroBanner />
 </template>
