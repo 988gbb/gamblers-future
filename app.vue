@@ -1,5 +1,5 @@
 <template>
-  <NavigationItem />
+  <Navigation />
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
