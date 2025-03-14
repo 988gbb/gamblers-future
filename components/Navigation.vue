@@ -1,93 +1,59 @@
 <template>
-  <nav class="bg-gray-800 text-white p-4">
+  <nav class="bg-blue-800 text-white p-4">
     <div class="container mx-auto flex justify-between items-center">
-      <!-- Logo/Home link -->
-      <NuxtLink to="/" class="text-xl font-bold"> Gambler's Future </NuxtLink>
+      <router-link to="/" class="text-lg font-bold"
+        >Gamblers Future</router-link
+      >
 
-      <!-- Mobile menu button -->
-      <button @click="toggleMobileMenu" class="md:hidden p-2">
+      <button @click="toggleMenu" class="md:hidden block">
         <svg
           class="w-6 h-6"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            v-if="!isMobileMenuOpen"
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"
-            d="M4 6h16M4 12h16M4 18h16"
-          />
-          <path
-            v-else
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M6 18L18 6M6 6l12 12"
-          />
+            d="M4 6h16M4 12h16m-7 6h7"
+          ></path>
         </svg>
       </button>
 
-      <!-- Navigation Links -->
-      <div
-        :class="[
-          'md:flex md:items-center md:space-x-4',
-          isMobileMenuOpen
-            ? 'absolute top-16 left-0 right-0 flex flex-col bg-gray-800 p-4 space-y-4'
-            : 'hidden',
-        ]"
+      <ul
+        :class="['md:flex space-x-6', { hidden: !isOpen, block: isOpen }]"
+        class="md:block md:space-x-6 md:ml-auto"
       >
-        <!-- Always visible links -->
-        <NuxtLink to="/" class="hover:text-gray-300"> Home </NuxtLink>
-
-        <!-- Links for authenticated users -->
-        <template v-if="isAuthenticated">
-          <NuxtLink to="/dashboard" class="hover:text-gray-300">
-            Dashboard
-          </NuxtLink>
-          <NuxtLink to="/profile" class="hover:text-gray-300">
-            Profile
-          </NuxtLink>
-          <button @click="handleLogout" class="hover:text-gray-300 text-left">
-            Logout
-          </button>
-        </template>
-
-        <!-- Links for non-authenticated users -->
-        <template v-else>
-          <NuxtLink to="/login" class="hover:text-gray-300"> Login </NuxtLink>
-          <NuxtLink
-            to="/signup"
-            class="py-2 px-4 bg-blue-500 rounded hover:bg-blue-600 inline-block"
-          >
-            Sign Up
-          </NuxtLink>
-        </template>
-      </div>
+        <li v-for="link in navLinks" :key="link.path">
+          <router-link :to="link.path" class="hover:underline">{{
+            link.name
+          }}</router-link>
+        </li>
+      </ul>
     </div>
   </nav>
 </template>
 
-<script setup lang="ts">
-const isMobileMenuOpen = ref(false);
+<script setup>
+import { ref } from "vue";
 
-const toggleMobileMenu = () => {
-  isMobileMenuOpen.value = !isMobileMenuOpen.value;
+const isOpen = ref(false);
+const navLinks = ref([
+  { name: "Home", path: "/" },
+  { name: "About", path: "/about" },
+  { name: "Services", path: "/services" },
+  { name: "Contact", path: "/contact" },
+]);
+
+const toggleMenu = () => {
+  isOpen.value = !isOpen.value;
 };
-
-watch(
-  () => useRoute().fullPath,
-  () => {
-    isMobileMenuOpen.value = false;
-  }
-);
 </script>
 
 <style scoped>
 nav {
-  background-color: #1a202c;
-  color: white;
-  position: relative;
+  transition: all 0.3s ease-in-out;
 }
 </style>
