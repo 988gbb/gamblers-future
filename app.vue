@@ -35,3 +35,11 @@ useHead({
   ],
 });
 </script>
+<style>
+body {
+  background-color: #131313;
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
+}
+</style>

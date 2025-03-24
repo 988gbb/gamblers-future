@@ -21,8 +21,10 @@ const currentYear = new Date().getFullYear();
 
 <style scoped>
 .footer {
-  background-color: #2c3e50;
-  color: #ffffff;
+  background: linear-gradient(180deg, #1a1721 0%, #29252c 100%);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2),
+    0 2px 4px -1px rgba(0, 0, 0, 0.1);
+  color: rgba(255, 255, 255, 0.9);
   padding: 2rem 0;
   margin-top: auto;
 }
