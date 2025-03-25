@@ -8,12 +8,26 @@
           class="logo-image"
         />
       </NuxtLink>
-      <div class="nav-links">
+
+      <!-- Hamburger Button -->
+      <button
+        class="hamburger"
+        @click="isMenuOpen = !isMenuOpen"
+        :class="{ 'is-active': isMenuOpen }"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <!-- Navigation Links -->
+      <div class="nav-links" :class="{ 'is-open': isMenuOpen }">
         <NuxtLink
           v-for="link in navLinks"
           :key="link.path"
           :to="link.path"
           class="nav-item"
+          @click="isMenuOpen = false"
         >
           {{ link.name }}
         </NuxtLink>
@@ -23,6 +37,9 @@
 </template>
 
 <script setup>
+import { ref } from "vue";
+
+const isMenuOpen = ref(false);
 const navLinks = [
   { name: "Home", path: "/" },
   { name: "Predictions", path: "/predictions" },
@@ -126,6 +143,72 @@ const navLinks = [
 
   .logo-image {
     height: 35px;
+  }
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 2rem;
+  height: 2rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 10;
+}
+
+.hamburger span {
+  width: 2rem;
+  height: 0.25rem;
+  background: #dd4544;
+  border-radius: 10px;
+  transition: all 0.3s linear;
+  position: relative;
+  transform-origin: 1px;
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 70px;
+    right: 0;
+    width: 100%;
+    height: calc(100vh - 70px);
+    background: linear-gradient(180deg, #1a1721 0%, #29252c 100%);
+    flex-direction: column;
+    padding: 2rem;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    gap: 2rem;
+  }
+
+  .nav-links.is-open {
+    transform: translateX(0);
+  }
+
+  .nav-item {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .hamburger.is-active span:first-child {
+    transform: rotate(45deg);
+    top: 6px;
+  }
+
+  .hamburger.is-active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger.is-active span:nth-child(3) {
+    transform: rotate(-45deg);
+    bottom: 6px;
   }
 }
 </style>

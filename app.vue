@@ -37,8 +37,8 @@ useHead({
 </script>
 <style>
 body {
-  background-color: #131313;
-  color: #ffffff;
+  background-color: #3c3c3c;
+  color: rgba(255, 255, 255, 0.9);
   margin: 0;
   padding: 0;
 }

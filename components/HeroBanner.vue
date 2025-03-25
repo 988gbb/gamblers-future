@@ -159,8 +159,7 @@
   }
 
   .banner-image {
-    width: 100%;
-    max-width: 400px; /* Added max-width for mobile */
+    display: none;
   }
 
   .hero-img {
@@ -177,7 +176,7 @@
   }
 
   .hero-banner {
-    height: 400px;
+    height: 300px;
   }
 
   .search-container {
