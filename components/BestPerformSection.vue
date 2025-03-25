@@ -2,7 +2,9 @@
   <section class="best-perform-section">
     <div class="container">
       <h2 class="section-title">Spin & Win: The Hottest Online Casinos 🔥</h2>
-      <div class="casino-grid">
+
+      <!-- Desktop Grid -->
+      <div class="casino-grid desktop-only">
         <div v-for="casino in casinos" :key="casino.id" class="casino-card">
           <div class="casino-header">
             <span class="casino-name">{{ casino.name }}</span>
@@ -18,11 +20,91 @@
           </div>
         </div>
       </div>
+
+      <!-- Mobile Carousel -->
+      <div class="carousel-container mobile-only">
+        <div
+          class="carousel"
+          :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
+        >
+          <!-- Group casinos into sets of 3 -->
+          <div
+            v-for="pageIndex in totalPages"
+            :key="pageIndex"
+            class="carousel-page"
+          >
+            <div class="carousel-group">
+              <div v-for="index in 3" :key="index" class="carousel-slide">
+                <div
+                  v-if="casinos[(pageIndex - 1) * 3 + index - 1]"
+                  class="casino-card"
+                >
+                  <div class="casino-header">
+                    <span class="casino-name">
+                      {{ casinos[(pageIndex - 1) * 3 + index - 1].name }}
+                    </span>
+                    <div class="rating">
+                      <span class="star">★</span>
+                      <span class="rating-value">
+                        {{ casinos[(pageIndex - 1) * 3 + index - 1].rating }}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="casino-content">
+                    <p class="benefit">
+                      {{ casinos[(pageIndex - 1) * 3 + index - 1].mainBenefit }}
+                    </p>
+                    <div class="bonus">
+                      {{ casinos[(pageIndex - 1) * 3 + index - 1].bonus }}
+                    </div>
+                    <a
+                      :href="casinos[(pageIndex - 1) * 3 + index - 1].link"
+                      class="play-button"
+                    >
+                      Play Now
+                    </a>
+                  </div>
+                </div>
+                <div v-else class="casino-card casino-card-empty"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Updated navigation dots -->
+        <div class="carousel-nav">
+          <button
+            class="nav-button prev"
+            @click="prevSlide"
+            :disabled="currentSlide === 0"
+          >
+            ←
+          </button>
+          <div class="carousel-dots">
+            <button
+              v-for="index in totalPages"
+              :key="index"
+              class="dot"
+              :class="{ active: currentSlide === index - 1 }"
+              @click="goToSlide(index - 1)"
+            ></button>
+          </div>
+          <button
+            class="nav-button next"
+            @click="nextSlide"
+            :disabled="currentSlide === totalPages - 1"
+          >
+            →
+          </button>
+        </div>
+      </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
+
 interface Casino {
   id: number;
   name: string;
@@ -74,6 +156,28 @@ const casinos: Casino[] = [
     link: "#",
   },
 ];
+
+const currentSlide = ref(0);
+
+// Calculate total number of pages (groups of 3)
+const totalPages = Math.ceil(casinos.length / 3);
+
+// Update navigation logic
+const nextSlide = () => {
+  if (currentSlide.value < totalPages - 1) {
+    currentSlide.value++;
+  }
+};
+
+const prevSlide = () => {
+  if (currentSlide.value > 0) {
+    currentSlide.value--;
+  }
+};
+
+const goToSlide = (index: number) => {
+  currentSlide.value = index;
+};
 </script>
 
 <style scoped>
@@ -108,6 +212,8 @@ const casinos: Casino[] = [
   color: rgba(255, 255, 255, 0.9);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease;
+  height: 100%;
+  font-size: 0.9rem; /* Slightly smaller text for better fit */
 }
 
 .casino-card:hover {
@@ -181,6 +287,89 @@ const casinos: Casino[] = [
   background-color: #c93d3d;
 }
 
+.desktop-only {
+  display: grid;
+}
+
+.mobile-only {
+  display: none;
+}
+
+.carousel-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 0 1rem;
+}
+
+.carousel {
+  display: flex;
+  transition: transform 0.3s ease-in-out;
+  gap: 1rem;
+}
+
+.carousel-page {
+  min-width: 100%;
+  flex: 0 0 100%;
+}
+
+.carousel-group {
+  display: flex;
+  gap: 1rem;
+}
+
+.carousel-slide {
+  flex: 0 0 calc((100% - 2rem) / 3);
+  min-width: calc((100% - 2rem) / 3);
+}
+
+.casino-card-empty {
+  visibility: hidden;
+}
+
+.carousel-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.nav-button {
+  background: #dd4544;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.nav-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.carousel-dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: #4b5563;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dot.active {
+  background: #dd4544;
+}
+
 @media (max-width: 768px) {
   .casino-grid {
     grid-template-columns: repeat(2, 1fr); /* Changed to 2 columns */
@@ -202,6 +391,34 @@ const casinos: Casino[] = [
   .benefit,
   .bonus {
     font-size: 0.8rem; /* Smaller text */
+  }
+
+  .desktop-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: block;
+  }
+
+  .carousel-group {
+    gap: 0.5rem;
+  }
+
+  .carousel-slide {
+    flex: 0 0 calc((100% - 1rem) / 3);
+    min-width: calc((100% - 1rem) / 3);
+    padding: 0 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-slide {
+    min-width: 50%; /* Full width on very small screens */
+  }
+
+  .carousel {
+    gap: 0.5rem;
   }
 }
 </style>

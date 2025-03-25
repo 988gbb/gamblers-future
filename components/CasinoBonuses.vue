@@ -226,13 +226,35 @@ const bonuses = [
   background-color: #c93d3d;
 }
 
+@media (max-width: 1024px) {
+  .bonuses-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
 @media (max-width: 768px) {
   .section-title {
     font-size: 1.75rem;
   }
 
   .bonuses-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .bonus-card {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .bonuses-grid {
     grid-template-columns: 1fr;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
   }
 
   .bonus-card {
