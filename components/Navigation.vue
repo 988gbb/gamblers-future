@@ -12,6 +12,18 @@
 
       <!-- Main Navigation Links (Desktop) -->
       <div class="nav-links" :class="{ 'is-open': isMenuOpen }">
+        <!-- Mobile-only login button at the top of sidebar -->
+        <div class="mobile-auth-buttons">
+          <NuxtLink
+            to="/login"
+            class="mobile-login-btn"
+            @click="isMenuOpen = false"
+          >
+            <i class="fas fa-user"></i>
+            <span>Sign In or Join</span>
+          </NuxtLink>
+        </div>
+
         <NuxtLink
           v-for="link in navLinks"
           :key="link.path"
@@ -27,7 +39,7 @@
 
       <!-- Right side actions -->
       <div class="nav-actions">
-        <!-- Sign In Button -->
+        <!-- Sign In Button (Desktop only) -->
         <NuxtLink to="/login" class="login-btn">
           <i class="fas fa-user"></i>
           <span>Sign In or Join</span>
@@ -264,6 +276,38 @@ onUnmounted(() => {
   pointer-events: auto;
 }
 
+/* Update the mobile auth button styles */
+.mobile-auth-buttons {
+  display: none; /* Hidden by default on desktop */
+  width: 100%;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-login-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #dd4544, #e8937c);
+  color: white;
+  box-shadow: 0 4px 12px rgba(221, 69, 68, 0.4);
+}
+
+.mobile-login-btn:hover,
+.mobile-login-btn:active {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(221, 69, 68, 0.5);
+}
+
 /* Media queries for responsive design */
 @media (max-width: 768px) {
   .hamburger {
@@ -322,6 +366,12 @@ onUnmounted(() => {
 
   .login-btn {
     display: none;
+  }
+
+  /* Show the mobile auth buttons */
+  .mobile-auth-buttons {
+    display: flex;
+    flex-direction: column;
   }
 }
 
