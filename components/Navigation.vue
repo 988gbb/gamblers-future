@@ -30,7 +30,7 @@
         <!-- Sign In Button -->
         <NuxtLink to="/login" class="login-btn">
           <i class="fas fa-user"></i>
-          <span>Sign In</span>
+          <span>Sign In or Join</span>
         </NuxtLink>
 
         <!-- Mobile Menu Button -->
