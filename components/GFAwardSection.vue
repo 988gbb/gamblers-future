@@ -214,6 +214,20 @@
           <p class="cta-text">Next month's winner could be YOU!</p>
         </div>
       </div>
+
+      <div class="terms-container">
+        <div class="terms-divider"></div>
+        <p class="terms-text">
+          By participating in our awards program, you agree to our
+          <NuxtLink to="/terms-and-conditions" class="terms-link"
+            >Terms & Conditions</NuxtLink
+          >
+          and acknowledge our
+          <NuxtLink to="/privacy-policy" class="terms-link"
+            >Privacy Policy</NuxtLink
+          >.
+        </p>
+      </div>
     </div>
   </section>
 </template>
@@ -1008,6 +1022,71 @@ onBeforeUnmount(() => {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   z-index: 3;
   border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Terms and Conditions styles - add to the end of your CSS section */
+.terms-container {
+  margin-top: 3rem;
+  text-align: center;
+  width: 100%;
+}
+
+.terms-divider {
+  height: 1px;
+  width: 80%;
+  max-width: 600px;
+  margin: 0 auto 1.5rem;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 20%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.1) 80%,
+    transparent 100%
+  );
+}
+
+.terms-text {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.5;
+}
+
+.terms-link {
+  color: rgba(221, 69, 68, 0.8);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.terms-link::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #dd4544;
+  transition: width 0.3s ease;
+}
+
+.terms-link:hover {
+  color: #dd4544;
+}
+
+.terms-link:hover::after {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .terms-container {
+    margin-top: 2rem;
+  }
+
+  .terms-text {
+    font-size: 0.8125rem;
+    padding: 0 1rem;
+  }
 }
 
 /* Responsive styles */
