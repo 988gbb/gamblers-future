@@ -19,9 +19,10 @@
             <div class="winner-badge">
               <span>$1,000</span>
             </div>
-            <div class="winner-avatar">
-              <div class="avatar-glow"></div>
-              <img src="" alt="Lucky Winner" />
+            <!-- Replaced avatar with icon -->
+            <div class="winner-icon">
+              <div class="icon-glow"></div>
+              <i class="fas fa-ticket-alt"></i>
             </div>
             <div class="winner-username">@SarahT</div>
             <div class="winner-title">Lucky Winner</div>
@@ -54,9 +55,10 @@
             <div class="winner-crown">
               <i class="fas fa-crown"></i>
             </div>
-            <div class="winner-avatar">
-              <div class="avatar-glow"></div>
-              <img src="" alt="High Roller" />
+            <!-- Replaced avatar with icon -->
+            <div class="winner-icon">
+              <div class="icon-glow"></div>
+              <i class="fas fa-gem"></i>
             </div>
             <div class="winner-username">@LuckyMike88</div>
             <div class="winner-title">High Roller</div>
@@ -86,9 +88,10 @@
             <div class="winner-badge special">
               <span>+10%</span>
             </div>
-            <div class="winner-avatar">
-              <div class="avatar-glow"></div>
-              <img src="" alt="Big Winner" />
+            <!-- Replaced avatar with icon -->
+            <div class="winner-icon">
+              <div class="icon-glow"></div>
+              <i class="fas fa-coins"></i>
             </div>
             <div class="winner-username">@PokerDave</div>
             <div class="winner-title">Big Winner</div>
@@ -257,16 +260,6 @@ onMounted(() => {
 
   // Update countdown every minute
   countdownInterval = setInterval(calculateTimeRemaining, 60000);
-
-  // Replace missing image placeholders
-  document.querySelectorAll(".winner-avatar img").forEach((img) => {
-    img.onerror = function () {
-      this.src =
-        "https://ui-avatars.com/api/?background=random&name=" +
-        encodeURIComponent(this.alt);
-      this.onerror = null;
-    };
-  });
 });
 
 onBeforeUnmount(() => {
@@ -470,17 +463,18 @@ onBeforeUnmount(() => {
 
 .winner-badge {
   position: absolute;
-  top: 1.25rem;
-  right: -0.5rem;
-  background: rgba(255, 255, 255, 0.1);
+  top: -10px;
+  right: -10px;
+  background: rgba(221, 69, 68, 0.9);
   backdrop-filter: blur(5px);
   border-radius: 30px;
   padding: 0.35rem 0.75rem;
   font-weight: 700;
   font-size: 1rem;
   color: white;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  z-index: 2;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 3;
+  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .winner-badge.special {
@@ -868,6 +862,152 @@ onBeforeUnmount(() => {
 .cta-text {
   font-size: 1rem;
   color: rgba(255, 255, 255, 0.7);
+}
+
+/* Replace avatar styles with icon styles */
+.winner-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 1rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.05),
+    rgba(0, 0, 0, 0.2)
+  );
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.winner-icon i {
+  font-size: 2.5rem;
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(135deg, #ffffff, #cccccc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.first-place .winner-icon {
+  width: 120px;
+  height: 120px;
+  border-color: rgba(221, 69, 68, 0.3);
+  margin-bottom: 1.5rem;
+  background: linear-gradient(
+    145deg,
+    rgba(221, 69, 68, 0.1),
+    rgba(0, 0, 0, 0.2)
+  );
+}
+
+.first-place .winner-icon i {
+  font-size: 3.5rem;
+  background: linear-gradient(135deg, #ffd700, #ffcc00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 4px rgba(255, 215, 0, 0.4));
+}
+
+.second-place .winner-icon i {
+  background: linear-gradient(135deg, #e5e5e5, #b4b4b4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.third-place .winner-icon i {
+  background: linear-gradient(135deg, #cd7f32, #a05a2c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.icon-glow {
+  position: absolute;
+  top: -30%;
+  left: -30%;
+  width: 160%;
+  height: 160%;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.2),
+    transparent 70%
+  );
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.podium-award:hover .icon-glow {
+  opacity: 1;
+}
+
+/* Add these pulsing animations for the icons */
+.first-place .winner-icon {
+  animation: pulse-gold 3s infinite ease-in-out;
+}
+
+.second-place .winner-icon {
+  animation: pulse-silver 3s infinite ease-in-out;
+}
+
+.third-place .winner-icon {
+  animation: pulse-bronze 3s infinite ease-in-out;
+}
+
+@keyframes pulse-gold {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(255, 215, 0, 0);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+  }
+}
+
+@keyframes pulse-silver {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(192, 192, 192, 0);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(192, 192, 192, 0.4);
+  }
+}
+
+@keyframes pulse-bronze {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(205, 127, 50, 0);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(205, 127, 50, 0.4);
+  }
+}
+
+/* Make space for badge on top of icon */
+.winner-badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: rgba(221, 69, 68, 0.9);
+  backdrop-filter: blur(5px);
+  border-radius: 30px;
+  padding: 0.35rem 0.75rem;
+  font-weight: 700;
+  font-size: 1rem;
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 3;
+  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 /* Responsive styles */
