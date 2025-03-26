@@ -283,7 +283,6 @@ function restart() {
   position: relative;
   width: 100%;
   height: 250px;
-  margin: 2rem 0;
   overflow: hidden;
 }
 

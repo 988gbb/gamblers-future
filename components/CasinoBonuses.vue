@@ -122,7 +122,7 @@ const bonuses = [
 
 <style scoped>
 .casino-bonuses {
-  padding: 5rem 0;
+  padding: 3rem 0;
   background: linear-gradient(180deg, #131313 0%, #1a1721 100%);
   position: relative;
 }
@@ -382,7 +382,7 @@ const bonuses = [
   }
 
   .casino-bonuses {
-    padding: 4rem 0;
+    padding: 3rem 0;
   }
 }
 

@@ -5,5 +5,7 @@
   <CasinoMatchmakerSection />
   <SectionDivider />
   <CasinoBonuses />
+  <SectionDivider />
+  <GFAwardSection />
   <ResponsibleSection />
 </template>
