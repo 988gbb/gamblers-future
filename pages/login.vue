@@ -3,17 +3,6 @@
     <div class="page-background"></div>
 
     <div class="auth-container">
-      <!-- Logo Section -->
-      <div class="logo-section">
-        <NuxtLink to="/" class="logo-link">
-          <img
-            src="/images/gfuture-red.png"
-            alt="Gamblers Future"
-            class="logo"
-          />
-        </NuxtLink>
-      </div>
-
       <!-- Form Container -->
       <div class="form-wrapper">
         <!-- Form Header -->
@@ -436,20 +425,6 @@ const handleRegister = async () => {
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.logo-section {
-  text-align: center;
-  padding: 2rem 0 1rem;
-}
-
-.logo-link {
-  display: inline-block;
-}
-
-.logo {
-  height: 50px;
-  width: auto;
 }
 
 .form-wrapper {
