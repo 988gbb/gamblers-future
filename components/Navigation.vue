@@ -1,17 +1,16 @@
 <template>
-  <nav class="navigation" :class="{ scrolled: isScrolled }">
+  <nav class="navigation" :class="{ scrolled: isScrolled, hidden: isHidden }">
     <div class="nav-container">
+      <!-- Logo -->
       <NuxtLink to="/" class="nav-logo">
         <img
-          :src="
-            isScrolled ? '/images/gfuture-red.png' : '/images/gfuture-red.png'
-          "
+          src="/images/gfuture-red.png"
           alt="Gambler's Future"
           class="logo-image"
         />
       </NuxtLink>
 
-      <!-- Main Navigation Links -->
+      <!-- Main Navigation Links (Desktop) -->
       <div class="nav-links" :class="{ 'is-open': isMenuOpen }">
         <NuxtLink
           v-for="link in navLinks"
@@ -28,15 +27,13 @@
 
       <!-- Right side actions -->
       <div class="nav-actions">
-        <button class="search-toggle" @click="toggleSearch">
-          <i class="fas fa-search"></i>
-        </button>
+        <!-- Sign In Button -->
         <NuxtLink to="/login" class="login-btn">
           <i class="fas fa-user"></i>
           <span>Sign In</span>
         </NuxtLink>
 
-        <!-- Hamburger Button -->
+        <!-- Mobile Menu Button -->
         <button
           class="hamburger"
           @click="isMenuOpen = !isMenuOpen"
@@ -46,25 +43,6 @@
           <span></span>
           <span></span>
           <span></span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Expandable Search Bar -->
-    <div class="search-bar" :class="{ 'is-open': isSearchOpen }">
-      <div class="search-container">
-        <input
-          type="text"
-          placeholder="Search for casinos, bonuses, games..."
-          v-model="searchQuery"
-          @keyup.enter="performSearch"
-          ref="searchInput"
-        />
-        <button class="search-button" @click="performSearch">
-          <i class="fas fa-search"></i>
-        </button>
-        <button class="close-search" @click="toggleSearch">
-          <i class="fas fa-times"></i>
         </button>
       </div>
     </div>
@@ -81,12 +59,13 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
 
+// Navigation state
 const isMenuOpen = ref(false);
-const isSearchOpen = ref(false);
 const isScrolled = ref(false);
-const searchQuery = ref("");
-const searchInput = ref(null);
+const isHidden = ref(false);
+let lastScrollY = 0;
 
+// Navigation links
 const navLinks = [
   { name: "Home", path: "/" },
   { name: "Casinos", path: "/casinos" },
@@ -96,34 +75,24 @@ const navLinks = [
   { name: "About", path: "/about" },
 ];
 
-const toggleSearch = () => {
-  isSearchOpen.value = !isSearchOpen.value;
-  // Focus the search input when opened
-  if (isSearchOpen.value) {
-    setTimeout(() => {
-      searchInput.value?.focus();
-    }, 100);
-  }
-};
-
-const performSearch = () => {
-  if (!searchQuery.value.trim()) return;
-  console.log(`Searching for: ${searchQuery.value}`);
-  // Here you would implement actual search functionality
-  // For example, navigate to search results page:
-  // navigateTo(`/search?q=${encodeURIComponent(searchQuery.value)}`);
-
-  // Close search after submitting
-  isSearchOpen.value = false;
-  searchQuery.value = "";
-};
-
-// Handle scroll events to change nav appearance
+// Handle scroll to hide/show navigation
 const handleScroll = () => {
-  isScrolled.value = window.scrollY > 50;
+  const currentScrollY = window.scrollY;
+
+  // Update scrolled state (for appearance)
+  isScrolled.value = currentScrollY > 50;
+
+  // Hide navigation when scrolling down, show when scrolling up
+  if (currentScrollY > lastScrollY && currentScrollY > 200) {
+    isHidden.value = true;
+  } else {
+    isHidden.value = false;
+  }
+
+  lastScrollY = currentScrollY;
 };
 
-// Add/remove scroll event listener
+// Set up event listeners
 onMounted(() => {
   window.addEventListener("scroll", handleScroll);
 });
@@ -143,19 +112,22 @@ onUnmounted(() => {
   );
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
   z-index: 50;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, background 0.3s ease;
 }
 
+/* Scroll state styles */
 .navigation.scrolled {
-  background: linear-gradient(
-    180deg,
-    rgba(26, 23, 33, 0.98) 0%,
-    rgba(26, 23, 33, 0.98) 100%
-  );
+  background: rgba(26, 23, 33, 0.98);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Hide navigation when scrolling down */
+.navigation.hidden {
+  transform: translateY(-100%);
 }
 
 .nav-container {
@@ -166,36 +138,25 @@ onUnmounted(() => {
   align-items: center;
   padding: 0 1.5rem;
   height: 80px;
-  transition: height 0.3s ease;
-}
-
-.scrolled .nav-container {
-  height: 70px;
 }
 
 .nav-logo {
   display: flex;
   align-items: center;
-  margin-right: 2rem;
-  transition: all 0.3s ease;
 }
 
 .logo-image {
-  height: 45px;
-  width: auto;
-  object-fit: contain;
-  transition: all 0.3s ease;
-}
-
-.scrolled .logo-image {
   height: 40px;
+  width: auto;
 }
 
+/* Main Navigation Links */
 .nav-links {
   display: flex;
   gap: 2rem;
   align-items: center;
   margin-right: auto;
+  margin-left: 2rem;
 }
 
 .nav-item {
@@ -205,15 +166,9 @@ onUnmounted(() => {
   font-weight: 500;
   padding: 0.75rem 0;
   position: relative;
-  transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.nav-text {
-  position: relative;
-  z-index: 1;
 }
 
 .nav-indicator {
@@ -239,30 +194,14 @@ onUnmounted(() => {
   width: 100%;
 }
 
+/* Right side actions */
 .nav-actions {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-.search-toggle {
-  background: transparent;
-  border: none;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 1.1rem;
-  cursor: pointer;
-  padding: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-}
-
-.search-toggle:hover {
-  color: #dd4544;
-  transform: scale(1.1);
-}
-
+/* Login button */
 .login-btn {
   display: flex;
   align-items: center;
@@ -281,84 +220,32 @@ onUnmounted(() => {
 .login-btn:hover {
   background: rgba(221, 69, 68, 0.2);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(221, 69, 68, 0.2);
 }
 
-.search-bar {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  background: rgba(26, 23, 33, 0.98);
-  padding: 0;
-  height: 0;
-  overflow: hidden;
-  transition: height 0.3s ease;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-}
-
-.search-bar.is-open {
-  height: 70px;
-  padding: 1rem 0;
-}
-
-.search-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.search-container input {
-  flex: 1;
-  padding: 0.75rem 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.05);
-  color: white;
-  font-size: 1rem;
-}
-
-.search-container input:focus {
-  outline: none;
-  border-color: rgba(221, 69, 68, 0.4);
-  box-shadow: 0 0 0 2px rgba(221, 69, 68, 0.1);
-}
-
-.search-container input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.search-button {
-  background: #dd4544;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 0.75rem 1.5rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.search-button:hover {
-  background: #c93d3d;
-}
-
-.close-search {
+/* Mobile menu button */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 2rem;
+  height: 2rem;
   background: transparent;
   border: none;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 1.1rem;
   cursor: pointer;
-  padding: 0.5rem;
-  transition: all 0.2s ease;
+  padding: 0;
 }
 
-.close-search:hover {
-  color: white;
+.hamburger span {
+  width: 2rem;
+  height: 0.25rem;
+  background: #dd4544;
+  border-radius: 10px;
+  transition: all 0.3s linear;
+  position: relative;
+  transform-origin: 1px;
 }
 
+/* Mobile menu overlay */
 .menu-overlay {
   position: fixed;
   top: 0;
@@ -377,48 +264,7 @@ onUnmounted(() => {
   pointer-events: auto;
 }
 
-.hamburger {
-  display: none;
-  flex-direction: column;
-  justify-content: space-around;
-  width: 2rem;
-  height: 2rem;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  z-index: 10;
-}
-
-.hamburger span {
-  width: 2rem;
-  height: 0.25rem;
-  background: #dd4544;
-  border-radius: 10px;
-  transition: all 0.3s linear;
-  position: relative;
-  transform-origin: 1px;
-}
-
-@media (max-width: 968px) {
-  .nav-links {
-    gap: 1.5rem;
-  }
-
-  .login-btn span {
-    display: none;
-  }
-
-  .login-btn {
-    padding: 0.5rem;
-    border-radius: 50%;
-    aspect-ratio: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-}
-
+/* Media queries for responsive design */
 @media (max-width: 768px) {
   .hamburger {
     display: flex;
@@ -439,6 +285,7 @@ onUnmounted(() => {
     gap: 2rem;
     align-items: flex-start;
     box-shadow: -10px 0 30px rgba(0, 0, 0, 0.3);
+    margin-left: 0;
   }
 
   .nav-links.is-open {
@@ -454,7 +301,6 @@ onUnmounted(() => {
   }
 
   .nav-indicator {
-    width: 0 !important;
     left: 0;
   }
 
@@ -468,7 +314,6 @@ onUnmounted(() => {
 
   .hamburger.is-active span:nth-child(2) {
     opacity: 0;
-    transform: translateX(-20px);
   }
 
   .hamburger.is-active span:nth-child(3) {
@@ -490,27 +335,10 @@ onUnmounted(() => {
     height: 35px;
   }
 
-  .search-toggle {
-    font-size: 1rem;
-  }
-
   .nav-links {
     top: 70px;
     width: 100%;
     max-width: none;
-  }
-
-  .search-bar.is-open {
-    height: 60px;
-  }
-
-  .search-container input {
-    padding: 0.6rem 0.8rem;
-    font-size: 0.9rem;
-  }
-
-  .search-button {
-    padding: 0.6rem 1rem;
   }
 }
 </style>

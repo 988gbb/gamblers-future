@@ -100,7 +100,7 @@ const clearSearch = () => {
   min-height: 600px;
   background: linear-gradient(135deg, #201b26 0%, #1a1721 100%);
   position: relative;
-  padding: 4rem 2rem;
+  padding: 6rem 2rem;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -468,7 +468,7 @@ const clearSearch = () => {
 
 @media (max-width: 768px) {
   .hero-banner {
-    padding: 3rem 1.5rem;
+    padding: 6rem 1.5rem;
     min-height: auto;
   }
 
