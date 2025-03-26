@@ -1,7 +1,12 @@
 <template>
   <section class="best-perform-section">
     <div class="container">
-      <h2 class="section-title">Spin & Win: The Hottest Online Casinos 🔥</h2>
+      <div class="section-header">
+        <h2 class="section-title">Spin & Win: The Hottest Online Casinos 🔥</h2>
+        <NuxtLink to="/casinos" class="view-all-link">
+          View All Casinos <i class="fas fa-arrow-right"></i>
+        </NuxtLink>
+      </div>
 
       <!-- Desktop Grid -->
       <div class="casino-grid desktop-only">
@@ -235,11 +240,46 @@ const handleTouchEnd = () => {
   padding: 0 1.5rem;
 }
 
+/* Add section-header styles */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
 .section-title {
   font-size: 1.875rem;
   font-weight: bold;
   color: #dd4544;
-  margin-bottom: 2rem;
+  margin-bottom: 0; /* Changed from 2rem to 0 */
+}
+
+/* Add view-all-link styles */
+.view-all-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #dd4544;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.view-all-link:hover {
+  color: #e74c3c;
+  transform: translateX(3px);
+}
+
+.view-all-link i {
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
+}
+
+.view-all-link:hover i {
+  transform: translateX(3px);
 }
 
 /* Card styles */
@@ -455,8 +495,17 @@ const handleTouchEnd = () => {
 }
 
 @media (max-width: 768px) {
+  .section-header {
+    flex-direction: row;
+    align-items: center;
+  }
+
   .section-title {
     font-size: 1.5rem;
+  }
+
+  .view-all-link {
+    font-size: 0.9rem;
   }
 
   .desktop-only {
@@ -493,6 +542,16 @@ const handleTouchEnd = () => {
 
 /* Very small mobile devices */
 @media (max-width: 480px) {
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .view-all-link {
+    align-self: flex-end;
+  }
+
   /* IMPORTANT: Keep side-by-side layout by overriding previous styles */
   .cards-row {
     flex-direction: row !important;

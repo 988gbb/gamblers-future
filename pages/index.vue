@@ -5,4 +5,5 @@
   <CasinoMatchmakerSection />
   <SectionDivider />
   <CasinoBonuses />
+  <ResponsibleSection />
 </template>
