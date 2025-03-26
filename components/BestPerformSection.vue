@@ -21,57 +21,72 @@
         </div>
       </div>
 
-      <!-- Mobile Carousel -->
+      <!-- Simplified Mobile Carousel -->
       <div class="carousel-container mobile-only">
         <div
           class="carousel"
           :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
+          @touchstart="handleTouchStart"
+          @touchmove="handleTouchMove"
+          @touchend="handleTouchEnd"
         >
-          <!-- Group casinos into sets of 3 -->
+          <!-- Each page contains 2 casinos -->
           <div
-            v-for="pageIndex in totalPages"
-            :key="pageIndex"
+            v-for="i in Math.ceil(casinos.length / 2)"
+            :key="i"
             class="carousel-page"
           >
-            <div class="carousel-group">
-              <div v-for="index in 3" :key="index" class="carousel-slide">
-                <div
-                  v-if="casinos[(pageIndex - 1) * 3 + index - 1]"
-                  class="casino-card"
-                >
-                  <div class="casino-header">
-                    <span class="casino-name">
-                      {{ casinos[(pageIndex - 1) * 3 + index - 1].name }}
-                    </span>
-                    <div class="rating">
-                      <span class="star">★</span>
-                      <span class="rating-value">
-                        {{ casinos[(pageIndex - 1) * 3 + index - 1].rating }}
-                      </span>
-                    </div>
-                  </div>
-                  <div class="casino-content">
-                    <p class="benefit">
-                      {{ casinos[(pageIndex - 1) * 3 + index - 1].mainBenefit }}
-                    </p>
-                    <div class="bonus">
-                      {{ casinos[(pageIndex - 1) * 3 + index - 1].bonus }}
-                    </div>
-                    <a
-                      :href="casinos[(pageIndex - 1) * 3 + index - 1].link"
-                      class="play-button"
-                    >
-                      Play Now
-                    </a>
+            <div class="cards-row">
+              <!-- Left card -->
+              <div v-if="casinos[(i - 1) * 2]" class="casino-card">
+                <div class="casino-header">
+                  <span class="casino-name">{{
+                    casinos[(i - 1) * 2].name
+                  }}</span>
+                  <div class="rating">
+                    <span class="star">★</span>
+                    <span class="rating-value">{{
+                      casinos[(i - 1) * 2].rating
+                    }}</span>
                   </div>
                 </div>
-                <div v-else class="casino-card casino-card-empty"></div>
+                <div class="casino-content">
+                  <p class="benefit">{{ casinos[(i - 1) * 2].mainBenefit }}</p>
+                  <div class="bonus">{{ casinos[(i - 1) * 2].bonus }}</div>
+                  <a :href="casinos[(i - 1) * 2].link" class="play-button"
+                    >Play Now</a
+                  >
+                </div>
+              </div>
+
+              <!-- Right card -->
+              <div v-if="casinos[(i - 1) * 2 + 1]" class="casino-card">
+                <div class="casino-header">
+                  <span class="casino-name">{{
+                    casinos[(i - 1) * 2 + 1].name
+                  }}</span>
+                  <div class="rating">
+                    <span class="star">★</span>
+                    <span class="rating-value">{{
+                      casinos[(i - 1) * 2 + 1].rating
+                    }}</span>
+                  </div>
+                </div>
+                <div class="casino-content">
+                  <p class="benefit">
+                    {{ casinos[(i - 1) * 2 + 1].mainBenefit }}
+                  </p>
+                  <div class="bonus">{{ casinos[(i - 1) * 2 + 1].bonus }}</div>
+                  <a :href="casinos[(i - 1) * 2 + 1].link" class="play-button"
+                    >Play Now</a
+                  >
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Updated navigation dots -->
+        <!-- Simple Navigation Controls -->
         <div class="carousel-nav">
           <button
             class="nav-button prev"
@@ -80,19 +95,13 @@
           >
             ←
           </button>
-          <div class="carousel-dots">
-            <button
-              v-for="index in totalPages"
-              :key="index"
-              class="dot"
-              :class="{ active: currentSlide === index - 1 }"
-              @click="goToSlide(index - 1)"
-            ></button>
+          <div class="carousel-indicator">
+            {{ currentSlide + 1 }} / {{ pageCount }}
           </div>
           <button
             class="nav-button next"
             @click="nextSlide"
-            :disabled="currentSlide === totalPages - 1"
+            :disabled="currentSlide === pageCount - 1"
           >
             →
           </button>
@@ -103,7 +112,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed, watch, onMounted } from "vue";
 
 interface Casino {
   id: number;
@@ -147,24 +156,13 @@ const casinos: Casino[] = [
     bonus: "Up to €1000",
     link: "#",
   },
-  {
-    id: 5,
-    name: "Betway",
-    rating: 4.7,
-    mainBenefit: "24/7 Support",
-    bonus: "€1000 Welcome Package",
-    link: "#",
-  },
 ];
 
 const currentSlide = ref(0);
+const pageCount = computed(() => Math.ceil(casinos.length / 2));
 
-// Calculate total number of pages (groups of 3)
-const totalPages = Math.ceil(casinos.length / 3);
-
-// Update navigation logic
 const nextSlide = () => {
-  if (currentSlide.value < totalPages - 1) {
+  if (currentSlide.value < pageCount.value - 1) {
     currentSlide.value++;
   }
 };
@@ -175,20 +173,66 @@ const prevSlide = () => {
   }
 };
 
-const goToSlide = (index: number) => {
-  currentSlide.value = index;
+// Add these for the progress bar
+const progressElement = ref(null);
+
+watch(currentSlide, (newValue) => {
+  document.documentElement.style.setProperty(
+    "--current-page",
+    newValue.toString()
+  );
+});
+
+onMounted(() => {
+  document.documentElement.style.setProperty(
+    "--total-pages",
+    pageCount.value.toString()
+  );
+  document.documentElement.style.setProperty(
+    "--current-page",
+    currentSlide.value.toString()
+  );
+});
+
+// Add touch swipe support for the carousel
+const touchStartX = ref(0);
+const touchEndX = ref(0);
+
+const handleTouchStart = (e) => {
+  touchStartX.value = e.touches[0].clientX;
+};
+
+const handleTouchMove = (e) => {
+  touchEndX.value = e.touches[0].clientX;
+};
+
+const handleTouchEnd = () => {
+  const threshold = 75; // minimum distance to be considered a swipe
+
+  if (touchStartX.value - touchEndX.value > threshold) {
+    // Swipe left - go to next slide
+    nextSlide();
+  }
+
+  if (touchEndX.value - touchStartX.value > threshold) {
+    // Swipe right - go to previous slide
+    prevSlide();
+  }
 };
 </script>
 
 <style scoped>
+/* Base styles for all screens */
 .best-perform-section {
   padding: 2rem 0;
+  background: linear-gradient(180deg, #1a1721 0%, #29252c 100%);
+  color: #fff;
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 1.5rem;
 }
 
 .section-title {
@@ -196,78 +240,77 @@ const goToSlide = (index: number) => {
   font-weight: bold;
   color: #dd4544;
   margin-bottom: 2rem;
-  text-align: left;
 }
 
-.casino-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
-  gap: 1.5rem;
-}
-
+/* Card styles */
 .casino-card {
-  background: #26222a;
-  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0.75rem;
   padding: 1.25rem;
-  color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
   height: 100%;
-  font-size: 0.9rem; /* Slightly smaller text for better fit */
+  display: flex;
+  flex-direction: column;
 }
 
 .casino-card:hover {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  border-color: rgba(221, 69, 68, 0.3);
 }
 
 .casino-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
-  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 1.25rem;
 }
 
 .casino-name {
-  font-size: 1.125rem;
-  font-weight: bold;
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 
 .rating {
   display: flex;
   align-items: center;
   gap: 0.25rem;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.25rem 0.5rem;
+  border-radius: 30px;
 }
 
 .star {
-  color: #fbbf24;
+  color: #dd4544;
 }
 
 .rating-value {
-  font-size: 0.875rem;
+  color: white;
   font-weight: 500;
-  color: #4b5563;
 }
 
 .casino-content {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.25rem;
+  flex: 1;
 }
 
 .benefit {
-  font-size: 0.875rem;
-  color: #6b7280;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.5;
 }
 
 .bonus {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #059669;
-  background-color: #ecfdf5;
-  padding: 0.5rem;
-  border-radius: 0.375rem;
+  font-weight: 600;
+  color: #66bb6a;
+  background-color: rgba(102, 187, 106, 0.1);
+  padding: 0.75rem;
+  border-radius: 0.5rem;
   text-align: center;
+  border: 1px dashed rgba(102, 187, 106, 0.3);
 }
 
 .play-button {
@@ -275,18 +318,134 @@ const goToSlide = (index: number) => {
   text-align: center;
   background-color: #dd4544;
   color: white;
-  padding: 0.75rem;
-  border-radius: 0.375rem;
+  padding: 0.875rem;
+  border-radius: 0.5rem;
   text-decoration: none;
-  font-size: 0.875rem;
   font-weight: 500;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  margin-top: auto;
 }
 
 .play-button:hover {
   background-color: #c93d3d;
 }
 
+/* Desktop grid */
+.casino-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Mobile carousel */
+.carousel-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.carousel {
+  display: flex;
+  transition: transform 0.3s ease-in-out;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+.carousel-page {
+  min-width: 100%;
+  width: 100%;
+  flex: 0 0 100%;
+}
+
+.cards-row {
+  display: flex;
+  gap: 1rem;
+  padding: 0.5rem;
+  height: 100%;
+}
+
+.cards-row .casino-card {
+  flex: 1;
+  min-width: 0; /* Prevents text overflow issues */
+  /* Min height ensures similar card sizes */
+  min-height: 300px;
+}
+
+/* Improved navigation controls */
+.carousel-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  position: relative;
+}
+
+/* Add a progress bar to better visualize location */
+.carousel-nav::before {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+.carousel-nav::after {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: #dd4544;
+  border-radius: 2px;
+  transition: transform 0.3s ease;
+  transform-origin: left;
+  /* This calculates the width based on current position */
+  transform: translateX(-50%)
+    scaleX(calc(1 / var(--total-pages) * (var(--current-page) + 1)));
+}
+
+.carousel-indicator {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+.nav-button {
+  background: linear-gradient(145deg, #e74c3c, #dd4544);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(221, 69, 68, 0.3);
+}
+
+.nav-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.nav-button:not(:disabled):hover {
+  background: linear-gradient(145deg, #dd4544, #c93d3d);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(221, 69, 68, 0.4);
+}
+
+/* Media Queries */
 .desktop-only {
   display: grid;
 }
@@ -295,102 +454,9 @@ const goToSlide = (index: number) => {
   display: none;
 }
 
-.carousel-container {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  padding: 0 1rem;
-}
-
-.carousel {
-  display: flex;
-  transition: transform 0.3s ease-in-out;
-  gap: 1rem;
-}
-
-.carousel-page {
-  min-width: 100%;
-  flex: 0 0 100%;
-}
-
-.carousel-group {
-  display: flex;
-  gap: 1rem;
-}
-
-.carousel-slide {
-  flex: 0 0 calc((100% - 2rem) / 3);
-  min-width: calc((100% - 2rem) / 3);
-}
-
-.casino-card-empty {
-  visibility: hidden;
-}
-
-.carousel-nav {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-.nav-button {
-  background: #dd4544;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 2.5rem;
-  height: 2.5rem;
-  cursor: pointer;
-  transition: opacity 0.3s ease;
-}
-
-.nav-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.carousel-dots {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.dot {
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  background: #4b5563;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.dot.active {
-  background: #dd4544;
-}
-
 @media (max-width: 768px) {
-  .casino-grid {
-    grid-template-columns: repeat(2, 1fr); /* Changed to 2 columns */
-    gap: 1rem; /* Reduced gap for better fit */
-  }
-
   .section-title {
     font-size: 1.5rem;
-  }
-
-  .casino-card {
-    padding: 1rem; /* Reduced padding */
-  }
-
-  .casino-name {
-    font-size: 1rem; /* Smaller font */
-  }
-
-  .benefit,
-  .bonus {
-    font-size: 0.8rem; /* Smaller text */
   }
 
   .desktop-only {
@@ -401,24 +467,68 @@ const goToSlide = (index: number) => {
     display: block;
   }
 
-  .carousel-group {
-    gap: 0.5rem;
+  .casino-card {
+    min-height: 320px;
   }
 
-  .carousel-slide {
-    flex: 0 0 calc((100% - 1rem) / 3);
-    min-width: calc((100% - 1rem) / 3);
-    padding: 0 0.5rem;
+  /* Ensure casino cards are side by side */
+  .cards-row {
+    flex-direction: row;
+    gap: 0.75rem;
+  }
+
+  /* Adjust card content for smaller size */
+  .casino-header {
+    margin-bottom: 0.75rem;
+  }
+
+  .casino-content {
+    gap: 0.75rem;
+  }
+
+  .play-button {
+    padding: 0.75rem;
   }
 }
 
+/* Very small mobile devices */
 @media (max-width: 480px) {
-  .carousel-slide {
-    min-width: 50%; /* Full width on very small screens */
+  /* IMPORTANT: Keep side-by-side layout by overriding previous styles */
+  .cards-row {
+    flex-direction: row !important;
+    gap: 0.5rem;
   }
 
-  .carousel {
-    gap: 0.5rem;
+  .casino-card {
+    padding: 0.75rem;
+    min-height: 280px;
+  }
+
+  .casino-name {
+    font-size: 0.9rem;
+  }
+
+  .rating {
+    padding: 0.15rem 0.35rem;
+  }
+
+  .rating-value {
+    font-size: 0.75rem;
+  }
+
+  .benefit {
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+
+  .bonus {
+    font-size: 0.8rem;
+    padding: 0.5rem;
+  }
+
+  .play-button {
+    font-size: 0.85rem;
+    padding: 0.6rem;
   }
 }
 </style>
