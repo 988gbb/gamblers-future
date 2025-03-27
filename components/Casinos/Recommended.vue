@@ -118,17 +118,16 @@
           </div>
         </div>
 
-        <!-- Carousel indicators -->
-        <div class="carousel-indicators">
-          <span
-            v-for="n in Math.min(10, totalItems)"
-            :key="n"
-            :class="[
-              'carousel-indicator',
-              { active: currentPosition === n - 1 },
-            ]"
-            @click="goToPosition(n - 1)"
-          ></span>
+        <!-- Replace the carousel indicators section with this progress bar -->
+        <div class="carousel-progress-container">
+          <div
+            class="carousel-progress-bar"
+            :style="{
+              width: isLastGroupVisible()
+                ? '100%'
+                : `${((currentPosition + 1) / totalItems) * 100}%`,
+            }"
+          ></div>
         </div>
       </div>
 
@@ -729,6 +728,35 @@ const resetCarousel = () => {
   scrollPosition.value = 0;
 };
 
+// Helper function to check if the last group of items is visible
+const isLastGroupVisible = () => {
+  const wrapper = carouselTrack.value?.parentElement;
+  if (!wrapper) return true;
+
+  // Get the current visible width
+  const wrapperWidth = wrapper.offsetWidth;
+
+  // Calculate how many cards are visible at once
+  let visibleCards = 6; // Default for large screens
+
+  if (window.innerWidth < 576) {
+    visibleCards = 2; // Mobile
+  } else if (window.innerWidth < 768) {
+    visibleCards = 3; // Small tablets
+  } else if (window.innerWidth < 992) {
+    visibleCards = 4; // Tablets
+  } else if (window.innerWidth < 1200) {
+    visibleCards = 5; // Small desktop
+  }
+
+  // Calculate the position where the last item becomes visible
+  const gap = 16;
+  const lastVisiblePosition = Math.max(0, totalItems.value - visibleCards);
+
+  // Return true if we've reached or passed that position
+  return currentPosition.value >= lastVisiblePosition;
+};
+
 // Auto scroll functionality
 const startAutoScroll = () => {
   // Clear any existing interval
@@ -739,23 +767,46 @@ const startAutoScroll = () => {
   // Start new interval for auto scrolling
   autoScrollInterval.value = setInterval(() => {
     if (!autoPaused.value) {
-      if (currentPosition.value < totalItems.value - 1) {
+      // Only advance if the last item isn't fully visible yet
+      if (!isLastGroupVisible()) {
         nextSlide();
       } else {
-        // Loop back to beginning when reaching the end
-        currentPosition.value = 0;
-        updateScrollPosition();
+        // Set progress bar to 100% when stopping at the end
+        fillProgressBarCompletely();
+
+        // Stop the interval when all items are visible
+        clearInterval(autoScrollInterval.value);
+        autoScrollInterval.value = null;
       }
     }
   }, 3000); // Scroll every 3 seconds
 };
 
-const pauseAutoScroll = () => {
-  autoPaused.value = true;
-};
+// New function to fill the progress bar completely when auto-scrolling stops
+const fillProgressBarCompletely = () => {
+  // Update currentPosition to the last item to make the progress bar fill completely
+  // This is visual only and doesn't change what's visible in the carousel
+  const wrapper = carouselTrack.value?.parentElement;
+  if (!wrapper) return;
 
-const resumeAutoScroll = () => {
-  autoPaused.value = false;
+  // Get visible cards count
+  let visibleCards = 6;
+  if (window.innerWidth < 576) {
+    visibleCards = 2;
+  } else if (window.innerWidth < 768) {
+    visibleCards = 3;
+  } else if (window.innerWidth < 992) {
+    visibleCards = 4;
+  } else if (window.innerWidth < 1200) {
+    visibleCards = 5;
+  }
+
+  // If we're at the last visible position, update the progress bar to show 100%
+  if (isLastGroupVisible()) {
+    // Modify only the template binding for progress bar, not the actual currentPosition
+    // This ensures we don't move items that are already visible
+    document.querySelector(".carousel-progress-bar").style.width = "100%";
+  }
 };
 
 // Touch handling for swipe gestures
@@ -1070,25 +1121,31 @@ onMounted(() => {
   background: rgba(255, 255, 255, 0.06);
 }
 
-.carousel-indicators {
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
+.carousel-progress-container {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
   margin-top: 1.5rem;
+  overflow: hidden;
+  width: 100%;
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.carousel-indicator {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  cursor: pointer;
-  transition: all 0.2s ease;
+.carousel-progress-bar {
+  height: 100%;
+  background: linear-gradient(to right, #dd4544, #e8937c);
+  border-radius: 2px;
+  transition: width 0.3s ease-out;
 }
 
-.carousel-indicator.active {
-  background: rgba(221, 69, 68, 0.7);
-  transform: scale(1.2);
+@media (max-width: 576px) {
+  .carousel-progress-container {
+    height: 3px;
+    max-width: 200px;
+    margin-top: 1.25rem;
+  }
 }
 
 /* Casino card styles (your existing styles) */
