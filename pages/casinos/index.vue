@@ -1,0 +1,1 @@
+<template><CasinosHero /> <CasinosRecommended /></template>

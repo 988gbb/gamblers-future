@@ -46,6 +46,69 @@
           </button>
         </div>
 
+        <!-- New Quick Filters Section -->
+        <div class="quick-filters">
+          <div class="filters-scroll">
+            <!-- Game Types -->
+            <div
+              v-for="filter in quickFilters.gameTypes"
+              :key="`game-${filter.value}`"
+              :class="[
+                'filter-chip',
+                { active: isFilterActive('game', filter.value) },
+              ]"
+              @click="toggleQuickFilter('game', filter.value)"
+            >
+              <i :class="filter.icon"></i>
+              <span>{{ filter.label }}</span>
+            </div>
+
+            <!-- Bonus Types -->
+            <div
+              v-for="filter in quickFilters.bonusTypes"
+              :key="`bonus-${filter.value}`"
+              :class="[
+                'filter-chip',
+                { active: isFilterActive('bonus', filter.value) },
+              ]"
+              @click="toggleQuickFilter('bonus', filter.value)"
+            >
+              <i :class="filter.icon"></i>
+              <span>{{ filter.label }}</span>
+            </div>
+
+            <!-- Payment Methods -->
+            <div
+              v-for="filter in quickFilters.paymentMethods"
+              :key="`payment-${filter.value}`"
+              :class="[
+                'filter-chip',
+                { active: isFilterActive('payment', filter.value) },
+              ]"
+              @click="toggleQuickFilter('payment', filter.value)"
+            >
+              <i :class="filter.icon"></i>
+              <span>{{ filter.label }}</span>
+            </div>
+
+            <!-- Other Filters -->
+            <div
+              v-for="filter in quickFilters.otherFilters"
+              :key="`other-${filter.value}`"
+              :class="[
+                'filter-chip',
+                { active: isFilterActive('other', filter.value) },
+              ]"
+              @click="toggleQuickFilter('other', filter.value)"
+            >
+              <i :class="filter.icon"></i>
+              <span>{{ filter.label }}</span>
+            </div>
+          </div>
+
+          <div class="filters-fade-right"></div>
+        </div>
+
         <div class="trust-badges">
           <div class="badge">
             <div class="badge-icon">
@@ -149,6 +212,59 @@ const handleSearch = () => {
   // Implement actual search functionality
   // You might want to emit an event to the parent component
   // or use a router to navigate to search results
+};
+
+// Quick filters data
+const quickFilters = {
+  gameTypes: [
+    { label: "Slots", value: "slots", icon: "fas fa-dice" },
+    { label: "Live Dealer", value: "live", icon: "fas fa-video" },
+    { label: "Table Games", value: "table", icon: "fas fa-table" },
+    { label: "Jackpots", value: "jackpots", icon: "fas fa-trophy" },
+  ],
+  bonusTypes: [
+    { label: "Welcome Bonus", value: "welcome", icon: "fas fa-gift" },
+    {
+      label: "No Deposit",
+      value: "nodeposit",
+      icon: "fas fa-hand-holding-usd",
+    },
+    { label: "Free Spins", value: "freespins", icon: "fas fa-sync" },
+  ],
+  paymentMethods: [
+    { label: "Credit Card", value: "creditcard", icon: "fas fa-credit-card" },
+    { label: "PayPal", value: "paypal", icon: "fab fa-paypal" },
+    { label: "Crypto", value: "crypto", icon: "fab fa-bitcoin" },
+  ],
+  otherFilters: [
+    { label: "Mobile Compatible", value: "mobile", icon: "fas fa-mobile-alt" },
+    { label: "4★+ Rating", value: "toprated", icon: "fas fa-star" },
+  ],
+};
+
+// Active filters
+const activeFilters = ref({
+  game: [],
+  bonus: [],
+  payment: [],
+  other: [],
+});
+
+// Filter functions
+const isFilterActive = (type, value) => {
+  return activeFilters.value[type].includes(value);
+};
+
+const toggleQuickFilter = (type, value) => {
+  if (isFilterActive(type, value)) {
+    activeFilters.value[type] = activeFilters.value[type].filter(
+      (item) => item !== value
+    );
+  } else {
+    activeFilters.value[type].push(value);
+  }
+  // You would typically emit an event here to notify parent component
+  console.log("Active filters:", activeFilters.value);
 };
 
 // Top featured casino
@@ -339,6 +455,82 @@ const topCasino = ref({
 .search-button:hover {
   background: linear-gradient(135deg, #c43a39, #e37e66);
   transform: translateY(-2px);
+}
+
+/* Add new styles for quick filters */
+.quick-filters {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto 3rem;
+  overflow: hidden;
+}
+
+.filters-scroll {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scroll-behavior: smooth;
+  padding-bottom: 0.5rem;
+  mask-image: linear-gradient(to right, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+}
+
+.filters-scroll::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+.filter-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  white-space: nowrap;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.filter-chip:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.filter-chip.active {
+  background: rgba(221, 69, 68, 0.15);
+  border-color: rgba(221, 69, 68, 0.4);
+  color: #fff;
+}
+
+.filter-chip.active i {
+  color: #dd4544;
+}
+
+.filter-chip i {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.filters-fade-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(26, 23, 33, 0),
+    rgba(26, 23, 33, 1)
+  );
+  pointer-events: none;
+  z-index: 5;
 }
 
 .trust-badges {
@@ -647,6 +839,23 @@ const topCasino = ref({
     gap: 1rem;
     flex-wrap: wrap;
   }
+
+  .quick-filters {
+    margin-bottom: 2rem;
+    width: 100%;
+  }
+
+  .filter-chip {
+    padding: 0.45rem 0.9rem;
+    font-size: 0.85rem;
+  }
+
+  .filters-scroll {
+    gap: 0.5rem;
+    padding: 0.25rem;
+    mask-image: linear-gradient(to right, black 80%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
+  }
 }
 
 @media (max-width: 576px) {
@@ -703,6 +912,25 @@ const topCasino = ref({
   .search-input::placeholder {
     color: rgba(255, 255, 255, 0.6); /* Much brighter placeholder text */
     font-size: 15px; /* Larger placeholder text */
+  }
+
+  .quick-filters {
+    margin-bottom: 1.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .filter-chip {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    gap: 0.4rem;
+  }
+
+  .filter-chip i {
+    font-size: 0.8rem;
+  }
+
+  .filters-fade-right {
+    width: 40px;
   }
 }
 
