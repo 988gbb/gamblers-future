@@ -1,1 +1,4 @@
-<template><CasinosHero /> <CasinosRecommended /></template>
+<template>
+  <CasinosHero /> <CasinosRecommended /> <SectionDivider />
+  <CasinosComparison />
+</template>

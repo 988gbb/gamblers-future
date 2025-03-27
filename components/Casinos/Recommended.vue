@@ -139,14 +139,6 @@
         </NuxtLink>
       </div>
     </div>
-
-    <div class="section-divider bottom-divider">
-      <div class="divider-line"></div>
-      <div class="divider-icon">
-        <i class="fas fa-trophy"></i>
-      </div>
-      <div class="divider-line"></div>
-    </div>
   </section>
 </template>
 
