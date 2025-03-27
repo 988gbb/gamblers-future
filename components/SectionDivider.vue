@@ -8,14 +8,26 @@
       </div>
 
       <!-- Optional accent mark in the center -->
-      <div class="accent-mark" v-if="showAccent">
+      <div class="accent-mark" v-if="showAccent && !label && !promptLabel">
         <div class="diamond"></div>
         <div class="dot"></div>
       </div>
 
-      <!-- Optional label for the divider -->
+      <!-- Optional standard label for the divider -->
       <div class="divider-label" v-if="label">
         {{ label }}
+      </div>
+
+      <!-- New prompt label with enhanced styling -->
+      <div class="prompt-label" v-if="promptLabel">
+        <div class="prompt-bg"></div>
+        <div class="prompt-content">
+          <span class="prompt-icon" v-if="promptIcon">
+            <i :class="promptIcon"></i>
+          </span>
+          <span class="prompt-text">{{ promptLabel }}</span>
+        </div>
+        <div class="pulse-ring"></div>
       </div>
 
       <!-- Shine animation element -->
@@ -40,6 +52,14 @@ const props = defineProps({
   label: {
     type: String,
     default: "",
+  },
+  promptLabel: {
+    type: String,
+    default: "",
+  },
+  promptIcon: {
+    type: String,
+    default: "", // Example: "fas fa-star"
   },
   stitchCount: {
     type: Number,
@@ -196,6 +216,201 @@ const props = defineProps({
   background: #f5f5f5;
 }
 
+/* NEW PROMPT LABEL STYLES */
+.prompt-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  min-width: 140px;
+  padding: 0 5px;
+}
+
+.prompt-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #1a1721;
+  border-radius: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  z-index: -1;
+  border: 1px solid rgba(221, 69, 68, 0.3);
+  overflow: hidden;
+}
+
+.prompt-bg::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(221, 69, 68, 0.15) 0%,
+    rgba(221, 69, 68, 0) 60%
+  );
+  z-index: 1;
+}
+
+.divider-container.secondary .prompt-bg {
+  border-color: rgba(106, 17, 203, 0.3);
+}
+
+.divider-container.secondary .prompt-bg::after {
+  background: linear-gradient(
+    135deg,
+    rgba(106, 17, 203, 0.15) 0%,
+    rgba(106, 17, 203, 0) 60%
+  );
+}
+
+.divider-container.dark .prompt-bg {
+  border-color: rgba(80, 80, 80, 0.3);
+}
+
+.divider-container.dark .prompt-bg::after {
+  background: linear-gradient(
+    135deg,
+    rgba(80, 80, 80, 0.15) 0%,
+    rgba(80, 80, 80, 0) 60%
+  );
+}
+
+.divider-container.light .prompt-bg {
+  background: #f7f7f7;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.divider-container.light .prompt-bg::after {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0) 60%
+  );
+}
+
+.prompt-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 15px;
+  height: 100%;
+  gap: 8px;
+}
+
+.prompt-text {
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  background: linear-gradient(to right, #dd4544, #e8937c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  white-space: nowrap;
+}
+
+.divider-container.secondary .prompt-text {
+  background: linear-gradient(to right, #6a11cb, #c471ed);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.divider-container.dark .prompt-text {
+  background: linear-gradient(to right, #aaa, #ddd);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.divider-container.light .prompt-text {
+  background: linear-gradient(to right, #1a1721, #444);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.prompt-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #dd4544;
+  font-size: 0.9rem;
+}
+
+.divider-container.secondary .prompt-icon {
+  color: #6a11cb;
+}
+
+.divider-container.dark .prompt-icon {
+  color: #aaa;
+}
+
+.divider-container.light .prompt-icon {
+  color: #333;
+}
+
+/* Pulse ring animation */
+.pulse-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 30px;
+  z-index: -2;
+}
+
+.pulse-ring::before,
+.pulse-ring::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 30px;
+  animation: pulse 3s ease-out infinite;
+  opacity: 0;
+  border: 2px solid rgba(221, 69, 68, 0.5);
+}
+
+.pulse-ring::after {
+  animation-delay: 1.5s;
+}
+
+.divider-container.secondary .pulse-ring::before,
+.divider-container.secondary .pulse-ring::after {
+  border-color: rgba(106, 17, 203, 0.5);
+}
+
+.divider-container.dark .pulse-ring::before,
+.divider-container.dark .pulse-ring::after {
+  border-color: rgba(80, 80, 80, 0.5);
+}
+
+.divider-container.light .pulse-ring::before,
+.divider-container.light .pulse-ring::after {
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1.15);
+    opacity: 0;
+  }
+}
+
 /* Shimmering effect */
 .shine-effect {
   position: absolute;
@@ -227,9 +442,23 @@ const props = defineProps({
     width: 8px;
   }
 
-  .divider-label {
+  .divider-label,
+  .prompt-label {
     font-size: 0.7rem;
     padding: 0.2rem 0.8rem;
+  }
+
+  .prompt-label {
+    height: 30px;
+    min-width: 120px;
+  }
+
+  .prompt-text {
+    font-size: 0.75rem;
+  }
+
+  .prompt-icon {
+    font-size: 0.8rem;
   }
 }
 </style>
