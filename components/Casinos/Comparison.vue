@@ -2037,6 +2037,62 @@ const extractHours = (timeStr) => {
     height: 28px;
     font-size: 0.8rem;
   }
+
+  /* Existing media query styles */
+
+  /* Make selected casino cards more compact */
+  .selected-casino-card {
+    height: 280px;
+    padding: 1.25rem 1rem;
+  }
+
+  .selected-casino-logo {
+    width: 90px;
+    height: 45px;
+  }
+
+  .card-header {
+    margin-bottom: 1rem;
+    gap: 0.5rem;
+  }
+
+  .selected-casino-rating {
+    margin-left: auto;
+  }
+
+  .rating-value {
+    font-size: 1rem;
+  }
+
+  .selected-casino-name {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .selected-casino-bonus {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  .change-selection-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .empty-selection {
+    height: 280px;
+  }
+
+  .empty-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 0.75rem;
+  }
+
+  .empty-selection p {
+    font-size: 0.9rem;
+  }
 }
 
 @media (max-width: 576px) {
@@ -2113,6 +2169,168 @@ const extractHours = (timeStr) => {
   .secondary-btn {
     width: 100%;
     text-align: center;
+  }
+
+  /* Existing media query styles */
+
+  /* Make cards even smaller on very small devices */
+  .selected-casino-card {
+    width: 50%;
+    height: 250px;
+    padding: 1rem 0.75rem;
+  }
+
+  .selected-casino-logo {
+    width: 80px;
+    height: 40px;
+  }
+
+  .selected-casino-name {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .selected-casino-bonus {
+    font-size: 0.8rem;
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .change-selection-btn {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .empty-selection {
+    height: 250px;
+    width: 50%;
+  }
+
+  .empty-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .empty-icon i {
+    font-size: 1rem;
+  }
+
+  .empty-selection p {
+    font-size: 0.85rem;
+  }
+
+  /* Adjust picker modal cards */
+  .casino-grid {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 0.5rem;
+  }
+
+  .casino-pick-card {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .casino-pick-logo {
+    width: 80px;
+    height: 40px;
+    margin-bottom: 0.6rem;
+  }
+
+  .casino-pick-name {
+    font-size: 0.8rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .mini-rating {
+    font-size: 0.7rem;
+  }
+
+  /* Adjust spacing for VS element */
+  .battle-selection {
+    gap: 2rem;
+  }
+
+  .battle-vs {
+    margin: 1.5rem 0;
+  }
+
+  .vs-circle {
+    width: 60px;
+    height: 60px;
+  }
+
+  .vs-circle span {
+    font-size: 1rem;
+  }
+
+  .compare-now-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+
+  /* Adjust header spacing */
+  .section-title {
+    font-size: 1.4rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.85rem;
+    margin-top: 1.2rem;
+  }
+
+  .side-title {
+    margin-bottom: 1rem;
+  }
+
+  .pill {
+    font-size: 0.8rem;
+    padding: 0.35rem 1rem;
+  }
+}
+
+/* Add extra small device support */
+@media (max-width: 375px) {
+  .selected-casino-card {
+    height: 230px;
+  }
+
+  .selected-casino-logo {
+    width: 70px;
+    height: 35px;
+  }
+
+  .card-header {
+    gap: 0.3rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .rating-value {
+    font-size: 0.9rem;
+  }
+
+  .stars i {
+    font-size: 0.8rem;
+  }
+
+  .selected-casino-name {
+    font-size: 0.9rem;
+  }
+
+  .selected-casino-bonus {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .change-selection-btn {
+    font-size: 0.7rem;
+    padding: 0.35rem 0.7rem;
+  }
+
+  .empty-selection {
+    height: 230px;
+  }
+
+  .casino-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   }
 }
 </style>
