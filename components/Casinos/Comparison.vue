@@ -1933,10 +1933,19 @@ const extractHours = (timeStr) => {
     max-width: 100%;
   }
 
+  /* Fix the order of elements on mobile */
   .battle-vs {
-    order: -1;
-    margin-top: 0;
-    margin-bottom: 1rem;
+    order: 0; /* Change from -1 to 0 to maintain natural order */
+    margin: 2rem 0; /* Add margin above and below */
+  }
+
+  /* Ensure sides maintain proper order */
+  .left-side {
+    order: -1; /* First casino always appears first */
+  }
+
+  .right-side {
+    order: 1; /* Second casino always appears last */
   }
 
   .vs-line {
@@ -1966,6 +1975,7 @@ const extractHours = (timeStr) => {
     transform: scaleX(-1);
   }
 
+  /* Adjust spacing for better mobile presentation */
   .section-title {
     font-size: 1.75rem;
   }
@@ -1974,6 +1984,36 @@ const extractHours = (timeStr) => {
     font-size: 0.9rem;
   }
 
+  /* Create a clearer visual hierarchy for the VS element */
+  .vs-circle {
+    width: 70px;
+    height: 70px;
+    font-size: 1.2rem;
+    box-shadow: 0 5px 20px rgba(221, 69, 68, 0.4);
+  }
+
+  /* Add a visual separator between elements */
+  .battle-side:after {
+    content: "";
+    position: absolute;
+    bottom: -1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0)
+    );
+  }
+
+  .left-side:after {
+    display: none; /* Remove separator after first casino */
+  }
+
+  /* Rest of your existing mobile styles */
   .casino-grid {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
