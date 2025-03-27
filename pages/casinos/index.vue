@@ -1,5 +1,5 @@
 <template>
   <CasinosHero /> <CasinosRecommended />
-  <SectionDivider promptLabel="we are changing game" theme="dark" />
-  <CasinosComparison /><CasinosLatestNews />
+  <SectionDivider promptLabel="we are changing the game" theme="dark" />
+  <CasinosComparison /><CasinosLatestNews /> <CasinosEducation />
 </template>

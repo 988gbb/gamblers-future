@@ -5,7 +5,7 @@
   <CasinoMatchmakerSection />
   <SectionDivider />
   <CasinoBonuses />
-  <SectionDivider />
+  <SectionDivider promptLabel="we are changing the game" />
   <GFAwardSection />
   <ResponsibleSection />
 </template>
