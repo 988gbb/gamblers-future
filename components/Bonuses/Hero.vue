@@ -337,7 +337,7 @@ const closeModal = () => {
   width: 100%;
   height: 100%;
   background-color: #1a1721;
-  background-image: url("/images/background/hideout.svg");
+  background-image: url("/images/backgrounds/hideout.svg");
   background-repeat: repeat;
   background-size: 300px 300px;
   opacity: 0.12;
