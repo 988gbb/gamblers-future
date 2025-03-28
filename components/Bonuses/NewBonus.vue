@@ -45,6 +45,21 @@
               </div>
             </div>
 
+            <div v-if="bonus.code" class="bonus-code">
+              <div class="code-label">Code:</div>
+              <div class="code-value" @click="copyCode(bonus.code)">
+                {{ bonus.code }}
+                <div class="copy-icon">
+                  <i class="fas fa-copy"></i>
+                </div>
+                <span
+                  class="copy-tooltip"
+                  :class="{ active: copiedCode === bonus.code }"
+                  >Copied!</span
+                >
+              </div>
+            </div>
+
             <a :href="bonus.claimUrl" class="claim-btn">
               Claim Now <i class="fas fa-arrow-right"></i>
             </a>
@@ -69,6 +84,7 @@ const newBonuses = ref([
     isNew: true,
     claimUrl: "#",
     expiryDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000),
+    code: "LUCKY500",
   },
   {
     id: 2,
@@ -78,6 +94,7 @@ const newBonuses = ref([
     isNew: false,
     claimUrl: "#",
     expiryDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
+    code: "ROYAL200",
   },
   {
     id: 3,
@@ -87,6 +104,7 @@ const newBonuses = ref([
     isNew: true,
     claimUrl: "#",
     expiryDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    code: "GOLD50",
   },
 ]);
 
@@ -108,6 +126,17 @@ const formatTimeRemaining = (expiryDate) => {
     const minutes = Math.floor((total / 1000 / 60) % 60);
     return `${hours}h ${minutes}m remaining`;
   }
+};
+
+const copiedCode = ref(null);
+
+const copyCode = (code) => {
+  navigator.clipboard.writeText(code).then(() => {
+    copiedCode.value = code;
+    setTimeout(() => {
+      copiedCode.value = null;
+    }, 2000);
+  });
 };
 
 onMounted(() => {
@@ -406,6 +435,56 @@ onBeforeUnmount(() => {
   font-size: 0.8rem;
   font-weight: 600;
   color: #ff9800;
+}
+
+.bonus-code {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  margin: 0.8rem 0;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.code-label {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-right: 0.5rem;
+}
+
+.code-value {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #ff9800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.copy-icon {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.copy-tooltip {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-size: 0.7rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.copy-tooltip.active {
+  opacity: 1;
 }
 
 .claim-btn {
