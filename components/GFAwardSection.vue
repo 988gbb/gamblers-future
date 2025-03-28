@@ -219,17 +219,157 @@
         <div class="terms-divider"></div>
         <p class="terms-text">
           By participating in our awards program, you agree to our
-          <NuxtLink to="/terms-and-conditions" class="terms-link"
-            >Terms & Conditions</NuxtLink
+          <span class="terms-link" @click="openTermsModal('terms')"
+            >Terms & Conditions</span
           >
           and acknowledge our
-          <NuxtLink to="/privacy-policy" class="terms-link"
-            >Privacy Policy</NuxtLink
+          <span class="terms-link" @click="openTermsModal('privacy')"
+            >Privacy Policy</span
           >.
         </p>
       </div>
     </div>
   </section>
+
+  <!-- Terms and Privacy Policy Modal -->
+  <teleport to="body">
+    <div
+      v-if="showTermsModal"
+      class="terms-modal-backdrop"
+      @click="closeTermsModal"
+    >
+      <div class="terms-modal-content" @click.stop>
+        <div class="terms-modal-header">
+          <h3>{{ modalTitle }}</h3>
+          <button class="close-button" @click="closeTermsModal">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <div class="terms-modal-body">
+          <!-- Terms & Conditions Content -->
+          <div v-if="modalType === 'terms'">
+            <h4>Award Eligibility</h4>
+            <p>To be eligible for our monthly awards, you must:</p>
+            <ul>
+              <li>Have a registered account with Gambler's Future</li>
+              <li>Use our tracking links when playing at partner casinos</li>
+              <li>
+                Meet minimum activity requirements (at least 100 spins or
+                equivalent)
+              </li>
+              <li>Follow our responsible gambling guidelines</li>
+            </ul>
+
+            <h4>Prize Distribution</h4>
+            <p>
+              Cash prizes are distributed within 7 business days of the
+              announcement. Winners must provide valid payment information for
+              receiving funds.
+            </p>
+
+            <h4>Verification Process</h4>
+            <p>
+              All wins are subject to verification. We reserve the right to
+              request documentation to confirm the legitimacy of play and
+              winnings.
+            </p>
+
+            <h4>Participant Selection</h4>
+            <p>Monthly winners are selected based on:</p>
+            <ul>
+              <li>
+                <strong>High Roller Award:</strong> Highest total wager across
+                all tracked casinos
+              </li>
+              <li>
+                <strong>Lucky Winner:</strong> Random selection from all active
+                players
+              </li>
+              <li>
+                <strong>Big Winner:</strong> Largest single win (proportional to
+                bet size)
+              </li>
+            </ul>
+
+            <h4>Disqualification</h4>
+            <p>We reserve the right to disqualify participants who:</p>
+            <ul>
+              <li>Violate casino terms and conditions</li>
+              <li>Engage in fraudulent activity or collusion</li>
+              <li>Utilize bonus abuse tactics</li>
+              <li>Fail to provide required verification documents</li>
+            </ul>
+
+            <h4>Acceptance of Terms</h4>
+            <p>
+              By participating in our awards program, you acknowledge that you
+              have read and agreed to these terms and conditions.
+            </p>
+          </div>
+
+          <!-- Privacy Policy Content -->
+          <div v-if="modalType === 'privacy'">
+            <h4>Information We Collect</h4>
+            <p>When you participate in our awards program, we collect:</p>
+            <ul>
+              <li>Your username and account details</li>
+              <li>
+                Gaming activity data from partner casinos (with your consent)
+              </li>
+              <li>Game preferences and betting patterns</li>
+              <li>Transaction history related to awards</li>
+            </ul>
+
+            <h4>How We Use Your Information</h4>
+            <p>We use the collected information to:</p>
+            <ul>
+              <li>Track and verify your eligibility for awards</li>
+              <li>Process award payments</li>
+              <li>Announce and promote winners (with consent)</li>
+              <li>Improve our awards program</li>
+            </ul>
+
+            <h4>Public Recognition</h4>
+            <p>
+              By participating in our awards program, you consent to having your
+              username and win amounts published on our website and social media
+              channels. We will never share your full name or personal details
+              without explicit consent.
+            </p>
+
+            <h4>Data Security</h4>
+            <p>
+              We implement appropriate security measures to protect your
+              personal information from unauthorized access, alteration, or
+              disclosure.
+            </p>
+
+            <h4>Your Rights</h4>
+            <p>You have the right to:</p>
+            <ul>
+              <li>Access your personal data</li>
+              <li>Request correction of inaccurate data</li>
+              <li>Request deletion of your data</li>
+              <li>Opt out of having your wins publicly displayed</li>
+            </ul>
+
+            <h4>Contact Us</h4>
+            <p>
+              For any privacy-related concerns or to exercise your rights,
+              please contact our privacy team at privacy@gamblersfuture.com.
+            </p>
+          </div>
+        </div>
+
+        <div class="terms-modal-footer">
+          <button class="accept-button" @click="closeTermsModal">
+            I Understand
+          </button>
+        </div>
+      </div>
+    </div>
+  </teleport>
 </template>
 
 <script setup>
@@ -282,6 +422,21 @@ onBeforeUnmount(() => {
     clearInterval(countdownInterval);
   }
 });
+
+// Terms and Privacy Modal Logic
+const showTermsModal = ref(false);
+const modalType = ref("");
+const modalTitle = ref("");
+
+const openTermsModal = (type) => {
+  modalType.value = type;
+  modalTitle.value = type === "terms" ? "Terms & Conditions" : "Privacy Policy";
+  showTermsModal.value = true;
+};
+
+const closeTermsModal = () => {
+  showTermsModal.value = false;
+};
 </script>
 
 <style scoped>
@@ -1024,39 +1179,237 @@ onBeforeUnmount(() => {
   border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Terms and Conditions styles - add to the end of your CSS section */
+/* Terms Container Styling */
 .terms-container {
   margin-top: 3rem;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.terms-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at center,
+    rgba(221, 69, 68, 0.05) 0%,
+    transparent 70%
+  );
+  z-index: 0;
 }
 
 .terms-divider {
-  height: 1px;
-  width: 80%;
-  max-width: 600px;
-  margin: 0 auto 1.5rem;
+  width: 80px;
+  height: 3px;
   background: linear-gradient(
     90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.1) 20%,
-    rgba(255, 255, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0.1) 80%,
-    transparent 100%
+    transparent,
+    rgba(221, 69, 68, 0.5),
+    transparent
   );
+  margin: 0 auto 1rem;
+  border-radius: 3px;
 }
 
 .terms-text {
-  font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.5);
-  line-height: 1.5;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.7);
+  position: relative;
+  z-index: 1;
 }
 
+.terms-link {
+  color: #dd4544;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 0 2px;
+}
+
+.terms-link::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #dd4544, #e8937c);
+  transition: width 0.3s ease;
+  border-radius: 2px;
+}
+
+.terms-link:hover {
+  color: #e8937c;
+}
+
+.terms-link:hover::after {
+  width: 100%;
+}
+
+/* Add a subtle icon before the text */
+.terms-text::before {
+  content: "\f023"; /* Lock icon from Font Awesome */
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  margin-right: 0.5rem;
+  color: rgba(221, 69, 68, 0.7);
+  opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+  .terms-container {
+    padding: 1.25rem;
+    margin-top: 2rem;
+  }
+
+  .terms-text {
+    font-size: 0.85rem;
+  }
+}
+
+/* Terms modal styles */
+.terms-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.terms-modal-content {
+  background: #1a1721;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(221, 69, 68, 0.2);
+  display: flex;
+  flex-direction: column;
+  animation: scaleIn 0.3s ease;
+}
+
+.terms-modal-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.terms-modal-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: white;
+  background: linear-gradient(135deg, #dd4544, #e8937c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.close-button {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.close-button:hover {
+  color: white;
+}
+
+.terms-modal-body {
+  padding: 1.5rem;
+  overflow-y: auto; /* Keep this */
+  max-height: 60vh; /* Set a fixed maximum height */
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.terms-modal-body > div {
+  padding-bottom: 1rem;
+}
+
+.terms-modal-body h4 {
+  margin: 1.5rem 0 0.75rem;
+  color: white;
+  font-size: 1.125rem;
+}
+
+.terms-modal-body h4:first-child {
+  margin-top: 0;
+}
+
+.terms-modal-body p,
+.terms-modal-body ul {
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.terms-modal-body ul {
+  padding-left: 1.5rem;
+}
+
+.terms-modal-body li {
+  margin-bottom: 0.5rem;
+}
+
+.terms-modal-body strong {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.terms-modal-footer {
+  padding: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.accept-button {
+  background: linear-gradient(135deg, #dd4544, #e8937c);
+  border: none;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.accept-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(221, 69, 68, 0.3);
+}
+
+/* Update the terms-link style for better clickability */
 .terms-link {
   color: rgba(221, 69, 68, 0.8);
   text-decoration: none;
   transition: all 0.2s ease;
   position: relative;
+  cursor: pointer; /* Add this to show it's clickable */
 }
 
 .terms-link::after {
@@ -1078,56 +1431,62 @@ onBeforeUnmount(() => {
   width: 100%;
 }
 
-@media (max-width: 768px) {
-  .terms-container {
-    margin-top: 2rem;
-  }
+.terms-modal-body::-webkit-scrollbar {
+  width: 8px;
+}
 
-  .terms-text {
-    font-size: 0.8125rem;
-    padding: 0 1rem;
+.terms-modal-body::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.terms-modal-body::-webkit-scrollbar-thumb {
+  background: rgba(221, 69, 68, 0.3);
+  border-radius: 4px;
+}
+
+.terms-modal-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(221, 69, 68, 0.5);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
-/* Responsive styles */
-@media (max-width: 900px) {
-  .podium-container {
-    flex-direction: column-reverse;
-    align-items: center;
-    gap: 3rem;
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Modal responsiveness */
+@media (max-width: 768px) {
+  .terms-modal-content {
+    width: 95%;
+    max-height: 80vh;
   }
 
-  .podium-platform {
-    width: 280px;
+  .terms-modal-header {
+    padding: 1.25rem;
   }
 
-  .first-place .podium-platform,
-  .second-place .podium-platform,
-  .third-place .podium-platform {
-    height: auto;
-    min-height: 320px;
+  .terms-modal-body {
+    padding: 1.25rem;
+    font-size: 0.9rem;
   }
 
-  .platform-height {
-    bottom: -3rem;
-    width: 50px;
-    height: 50px;
-    font-size: 1.5rem;
-  }
-
-  .steps-container {
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  .step-connector {
-    transform: rotate(90deg);
-    margin: 1rem 0;
-  }
-
-  .step-card {
-    width: 90%;
-    max-width: 280px;
+  .terms-modal-footer {
+    padding: 1.25rem;
   }
 }
 

@@ -82,7 +82,7 @@ const navLinks = [
   { name: "Home", path: "/" },
   { name: "Casinos", path: "/casinos" },
   { name: "Bonuses", path: "/bonuses" },
-  { name: "Predictions", path: "/predictions" },
+  { name: "Awards", path: "/awards" },
   { name: "Statistics", path: "/statistics" },
   { name: "About", path: "/about" },
 ];
