@@ -2,4 +2,7 @@
   <AwardsHero />
   <SectionDivider promptLabel="we are changing the game" theme="secondary" />
   <GFAwardSection />
+  <SectionDivider promptLabel="be wone with comunity" theme="secondary" />
+
+  <AwardsYear />
 </template>

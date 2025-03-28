@@ -1,5 +1,5 @@
 <template>
-  <section class="awards-section">
+  <section class="awards-section" id="awards-section">
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">

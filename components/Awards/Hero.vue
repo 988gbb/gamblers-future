@@ -53,6 +53,15 @@
             </div>
           </div>
 
+          <div class="feature special-feature">
+            <div class="feature-icon">
+              <i class="fas fa-award"></i>
+            </div>
+            <div class="feature-text">
+              <span>$200K+ Yearly Prizes</span>
+            </div>
+          </div>
+
           <div class="feature">
             <div class="feature-icon">
               <i class="fas fa-dollar-sign"></i>
@@ -65,8 +74,12 @@
 
         <div class="hero-cta">
           <a href="#awards-section" class="cta-button">
-            <span>View Winners</span>
+            <span>Monthly Winners</span>
             <i class="fas fa-chevron-down"></i>
+          </a>
+          <a href="#yearly-awards" class="yearly-button">
+            <span>Yearly Grand Prizes</span>
+            <i class="fas fa-trophy"></i>
           </a>
           <a href="/login" class="secondary-button">
             <span>Join & Compete</span>
@@ -86,6 +99,21 @@
         </div>
       </div>
     </div>
+
+    <div class="yearly-banner">
+      <div class="yearly-banner-content">
+        <div class="banner-icon">
+          <i class="fas fa-crown"></i>
+        </div>
+        <div class="banner-text">
+          <h3>$200,000+ in Yearly Grand Prizes</h3>
+          <p>Including $100K cash & a Tesla Cybertruck</p>
+        </div>
+        <a href="#yearly-awards" class="banner-button">
+          View Grand Prizes <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -94,7 +122,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  padding: 6rem 0 3rem;
+  padding: 6rem 0 7rem;
   background-color: #1a1721;
   overflow: hidden;
 }
@@ -318,6 +346,27 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
+.special-feature .feature-icon {
+  background: rgba(255, 215, 0, 0.15);
+  color: #ffd700;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.special-feature .feature-text {
+  font-weight: 600;
+  color: #ffd700;
+}
+
 /* CTA section */
 .hero-cta {
   display: flex;
@@ -325,7 +374,8 @@
 }
 
 .cta-button,
-.secondary-button {
+.secondary-button,
+.yearly-button {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
@@ -346,6 +396,21 @@
 .cta-button:hover {
   transform: translateY(-3px);
   box-shadow: 0 12px 30px rgba(221, 69, 68, 0.4);
+}
+
+.yearly-button {
+  background: linear-gradient(135deg, #ffd700, #ffb347);
+  color: #1a1721;
+  box-shadow: 0 8px 20px rgba(255, 215, 0, 0.3);
+}
+
+.yearly-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(255, 215, 0, 0.4);
+}
+
+.yearly-button i {
+  font-size: 1.1rem;
 }
 
 .secondary-button {
@@ -454,6 +519,92 @@
   }
 }
 
+/* Yearly Banner */
+.yearly-banner {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(26, 23, 33, 0.9),
+    rgba(26, 23, 33, 0.8)
+  );
+  padding: 1rem 0;
+  backdrop-filter: blur(10px);
+  z-index: 20;
+  border-top: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.yearly-banner-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.banner-icon {
+  font-size: 2rem;
+  color: #ffd700;
+  margin-right: 1rem;
+}
+
+.banner-text {
+  flex: 1;
+}
+
+.banner-text h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+}
+
+.banner-text p {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0.25rem 0 0;
+}
+
+.banner-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  border-radius: 30px;
+  background: rgba(255, 215, 0, 0.2);
+  color: #ffd700;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.banner-button:hover {
+  background: rgba(255, 215, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .yearly-banner-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+  }
+
+  .banner-icon {
+    margin-right: 0;
+  }
+
+  .banner-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 /* Responsive styles */
 @media (max-width: 1080px) {
   .container {
@@ -486,7 +637,7 @@
 
 @media (max-width: 768px) {
   .awards-hero {
-    padding: 4rem 0 7rem;
+    padding: 4rem 0 15rem;
     min-height: auto;
   }
 
@@ -511,12 +662,18 @@
   .hero-cta {
     flex-direction: column;
     width: 100%;
+    gap: 1rem;
   }
 
   .cta-button,
+  .yearly-button,
   .secondary-button {
     width: 100%;
     justify-content: center;
+  }
+
+  .secondary-button {
+    display: none;
   }
 
   .trophy-icon {
