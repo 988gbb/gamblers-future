@@ -129,10 +129,10 @@
         </div>
 
         <div class="cta-container">
-          <button class="primary-cta" @click="scrollToForm">
+          <nuxt-link to="/complaints/submit-form" class="primary-cta">
             Submit a Complaint
             <i class="fas fa-arrow-right"></i>
-          </button>
+          </nuxt-link>
           <button class="secondary-cta" @click="scrollToFAQ">
             Read FAQs
             <i class="fas fa-question-circle"></i>

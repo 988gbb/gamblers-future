@@ -296,10 +296,10 @@
             <i class="fas fa-envelope"></i>
             Contact Support
           </button>
-          <button class="cta-button submit">
+          <nuxt-link to="/complaints/submit-form" class="cta-button submit">
             <i class="fas fa-edit"></i>
             Submit a Complaint
-          </button>
+          </nuxt-link>
         </div>
       </div>
     </div>
