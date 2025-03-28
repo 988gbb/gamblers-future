@@ -1268,6 +1268,32 @@ const closeTermsModal = () => {
 }
 
 @media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .awards-section {
+    padding: 3rem 0 2rem;
+  }
+
+  .section-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .participation-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .participation-title {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .next-award-countdown {
+    padding: 1.25rem 1rem;
+    margin-bottom: 2.5rem;
+  }
+
   .terms-container {
     padding: 1.25rem;
     margin-top: 2rem;
@@ -1512,15 +1538,97 @@ const closeTermsModal = () => {
     height: 60px;
     font-size: 1.5rem;
   }
+
+  /* Steps improvements */
+  .steps-container {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .step-card {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  /* Hide connectors on mobile */
+  .step-connector {
+    display: none;
+  }
+
+  /* Add a numbered indicator to show sequence */
+  .step-card::after {
+    content: "";
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    width: 2px;
+    height: 20px;
+    background: rgba(221, 69, 68, 0.3);
+    display: block;
+  }
+
+  .step-card:last-child::after {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .countdown-timer {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem 2rem;
+  }
+
+  .countdown-unit {
+    width: calc(50% - 1rem);
+    max-width: 120px;
+  }
+
+  .countdown-value {
+    width: 100%;
+    height: 60px;
+    font-size: 1.5rem;
+  }
 }
 
 @media (max-width: 480px) {
   .section-title {
-    font-size: 1.875rem;
+    font-size: 1.75rem;
+  }
+
+  .highlight::after {
+    bottom: 2px;
+    height: 4px;
   }
 
   .section-subtitle {
-    font-size: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .winner-username {
+    font-size: 1.125rem;
+  }
+
+  .first-place .winner-username {
+    font-size: 1.25rem;
+  }
+
+  .winner-icon {
+    width: 80px;
+    height: 80px;
+  }
+
+  .winner-icon i {
+    font-size: 2rem;
+  }
+
+  .first-place .winner-icon {
+    width: 100px;
+    height: 100px;
+  }
+
+  .first-place .winner-icon i {
+    font-size: 2.75rem;
   }
 
   .award-info {
@@ -1534,7 +1642,67 @@ const closeTermsModal = () => {
 
   .join-button {
     width: 100%;
-    padding: 0.875rem 1.5rem;
+    padding: 0.875rem;
+    font-size: 0.95rem;
+    justify-content: center;
+  }
+
+  .cta-text {
+    font-size: 0.9rem;
+  }
+
+  .terms-container {
+    padding: 1rem;
+  }
+
+  .terms-text {
+    font-size: 0.8rem;
+  }
+
+  .terms-text::before {
+    display: block;
+    margin: 0 auto 0.75rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .podium-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  /* Correct ordering for mobile display */
+  .first-place {
+    order: 1;
+  }
+
+  .second-place {
+    order: 2;
+  }
+
+  .third-place {
+    order: 3;
+  }
+
+  /* Make platform widths consistent on mobile */
+  .podium-platform {
+    width: 280px;
+  }
+
+  /* Adjust heights for better proportions */
+  .first-place .podium-platform,
+  .second-place .podium-platform,
+  .third-place .podium-platform {
+    height: auto;
+    min-height: 320px;
+  }
+
+  /* Enhance first place visual distinction */
+  .first-place .podium-platform {
+    box-shadow: 0 15px 30px rgba(221, 69, 68, 0.2);
+    border-color: rgba(221, 69, 68, 0.4);
+    transform: scale(1.05);
   }
 }
 </style>
