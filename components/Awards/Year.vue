@@ -9,7 +9,6 @@
       <div class="particle p6"></div>
     </div>
     <div class="yearly-awards-header">
-      <div class="year-badge">2025</div>
       <h2 class="yearly-title">
         Annual <span class="highlight">Grand Awards</span>
       </h2>
@@ -109,6 +108,11 @@
             <i class="fas fa-rocket"></i>
             <span>Pioneering Gambling Strategies</span>
           </div>
+          <!-- Add these new restrictions -->
+          <div class="detail-item restriction">
+            <i class="fas fa-exclamation-circle"></i>
+            <span>Only ONE submission per account</span>
+          </div>
         </div>
         <div class="prize-cta">
           <button class="view-leaderboard-btn">
@@ -142,13 +146,18 @@
             <div class="point-marker"></div>
             <p>Adherence to responsible gambling guidelines</p>
           </div>
+          <!-- Add the new point here -->
+          <div class="eligibility-point">
+            <div class="point-marker"></div>
+            <p>Must be an active player at our partner casinos</p>
+          </div>
           <div class="eligibility-point">
             <div class="point-marker highlight-point">
               <i class="fas fa-exclamation"></i>
             </div>
             <p>
               <strong>Community Milestone:</strong> Platform must reach 10
-              million views by December 31, 2025
+              million views by December 31, 2025 (Only for community award)
             </p>
           </div>
         </div>
@@ -647,6 +656,20 @@
 
 .detail-item.milestone i {
   color: #dd4544;
+}
+
+.detail-item.restriction {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+.detail-item.restriction i {
+  color: rgba(255, 215, 0, 0.8);
 }
 
 /* CTA button */
