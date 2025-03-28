@@ -4,4 +4,8 @@
   <BonusesTopBonuses />
   <SectionDivider />
   <BonusesCalculator />
+  <BonusesNewBonus />
+  <SectionDivider promptLabel="Learn More" />
+
+  <BonusesTerms />
 </template>
