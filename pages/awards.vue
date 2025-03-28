@@ -6,5 +6,6 @@
   <AwardsCommunity />
   <SectionDivider promptLabel="be one with community" theme="secondary" />
   <AwardsYear />
+  <SectionDivider promptLabel="F&Q" theme="secondary" />
   <AwardsFAQ />
 </template>

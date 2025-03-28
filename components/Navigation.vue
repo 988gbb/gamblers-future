@@ -83,8 +83,8 @@ const navLinks = [
   { name: "Casinos", path: "/casinos" },
   { name: "Bonuses", path: "/bonuses" },
   { name: "Awards", path: "/awards" },
-  { name: "Statistics", path: "/statistics" },
-  { name: "About", path: "/about" },
+  { name: "News", path: "/news" },
+  { name: "Complaints", path: "/complaints" },
 ];
 
 // Handle scroll to hide/show navigation
