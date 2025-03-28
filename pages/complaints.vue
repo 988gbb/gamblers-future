@@ -1,1 +1,3 @@
-<template></template>
+<template>
+  <ComplaintsHero /><ComplaintsStatusTracker /><ComplaintsFAQ /><ComplaintsAlternativeContact /><ComplaintsAdvocacy />
+</template>

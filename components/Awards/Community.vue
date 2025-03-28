@@ -3,6 +3,17 @@
     <div class="community-bg"></div>
 
     <div class="community-content">
+      <div class="community-header">
+        <div class="community-badge">
+          <i class="fas fa-users"></i>
+          <span>Monthly Award</span>
+        </div>
+        <h2 class="community-title">
+          Community <span class="highlight">Guru</span>
+        </h2>
+        <p class="community-subtitle">Rewarding those who grow our community</p>
+      </div>
+
       <div class="community-card">
         <div class="card-content">
           <div class="prize-info">
