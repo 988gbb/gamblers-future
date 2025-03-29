@@ -27,21 +27,23 @@
           <div class="footer-section">
             <h4>About</h4>
             <nav>
-              <a href="#">About GF</a>
-              <a href="#">Contact Us</a>
+              <a href="/about">About GF</a>
+              <a href="/contact">Contact Us</a>
+              <a href="/faq">FAQ</a>
               <a href="#">Careers</a>
-              <a href="#">Responsible Gaming</a>
-              <a href="#">Terms & Conditions</a>
+              <a href="/responsible-gaming">Responsible Gaming</a>
+              <a href="/terms-conditions">Terms & Conditions</a>
             </nav>
           </div>
           <div class="footer-section">
             <h4>For Players</h4>
             <nav>
-              <a href="#">Casino Reviews</a>
-              <a href="#">Best Bonuses</a>
-              <a href="#">New Casinos</a>
-              <a href="#">Casino Games</a>
-              <a href="#">Payment Methods</a>
+              <a href="/casinos">Casino Reviews</a>
+              <a href="/bonuses">Best Bonuses</a>
+              <a href="/awards">Awards</a>
+              <a href="/news">News</a>
+              <a href="/complaints"> Complaints</a>
+              <a href="/sitemap.xml"> Sitemap</a>
             </nav>
           </div>
         </div>
