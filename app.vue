@@ -20,6 +20,37 @@ useHead({
       name: "theme-color",
       content: "#f33535", // Your brand red color
     },
+
+    // Open Graph meta tags
+    {
+      property: "og:title",
+      content: "Gambler's Future - Your Trusted Platform for Gambling",
+    },
+    {
+      property: "og:description",
+      content: "Your trusted platform for gambling",
+    },
+    {
+      property: "og:image",
+      content: "https://yourdomain.com/images/gfuture-icon.png",
+    },
+    { property: "og:url", content: "https://yourdomain.com" },
+    { property: "og:type", content: "website" },
+
+    // Twitter Card meta tags
+    { name: "twitter:card", content: "summary" },
+    {
+      name: "twitter:title",
+      content: "Gambler's Future - Your Trusted Platform for Gambling",
+    },
+    {
+      name: "twitter:description",
+      content: "Your trusted platform for gambling",
+    },
+    {
+      name: "twitter:image",
+      content: "https://yourdomain.com/images/gfuture-icon.png",
+    },
   ],
   link: [
     // Default favicon
@@ -33,7 +64,29 @@ useHead({
 
     // Mask icon for Safari pinned tabs
     { rel: "mask-icon", href: "/images/gfuture-icon.png", color: "#f33535" },
+
+    // Manifest file
+    { rel: "manifest", href: "/manifest.webmanifest" },
   ],
+  manifest: {
+    name: "Gambler's Future",
+    short_name: "Gambler's Future",
+    icons: [
+      {
+        src: "/images/gfuture-icon.png",
+        sizes: "192x192",
+        type: "image/png",
+      },
+      {
+        src: "/images/gfuture-icon.png",
+        sizes: "512x512",
+        type: "image/png",
+      },
+    ],
+    theme_color: "#f33535",
+    background_color: "#130f1d",
+    display: "standalone",
+  },
 });
 </script>
 <style>
