@@ -22,16 +22,17 @@ useHead({
     },
   ],
   link: [
-    {
-      rel: "icon",
-      type: "image/svg+xml",
-      href: "/images/gfuture-icon.png",
-    },
-    {
-      rel: "mask-icon",
-      href: "/images/gfuture-icon.png",
-      color: "#f33535", // This will color the pinned tab in Safari
-    },
+    // Default favicon
+    { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+
+    // PNG favicon for modern browsers
+    { rel: "icon", type: "image/png", href: "/images/gfuture-icon.png" },
+
+    // Apple touch icon
+    { rel: "apple-touch-icon", href: "/images/gfuture-icon.png" },
+
+    // Mask icon for Safari pinned tabs
+    { rel: "mask-icon", href: "/images/gfuture-icon.png", color: "#f33535" },
   ],
 });
 </script>
