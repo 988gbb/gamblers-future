@@ -233,33 +233,51 @@ const reportIssue = () => {
 }
 
 .status-code {
-  font-size: 5rem;
-  font-weight: 800;
+  font-size: 12rem; /* Increased from 5rem */
+  font-weight: 900;
   line-height: 1;
-  background: linear-gradient(135deg, #ff6767, #ff4b4b);
+  background: linear-gradient(135deg, #ff6767, #ff4b4b, #9a4dff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 2px 4px rgba(255, 75, 75, 0.3));
-  margin-right: 1.5rem;
+  filter: drop-shadow(0 4px 8px rgba(255, 75, 75, 0.4));
+  margin-right: 2rem; /* Increased from 1.5rem */
+  position: relative;
+  animation: errorFloat 6s ease-in-out infinite;
+  letter-spacing: -0.5rem;
+  transform-style: preserve-3d;
 }
 
 .status-divider {
-  width: 2px;
-  height: 60px;
+  width: 4px; /* Increased from 2px */
+  height: 120px; /* Increased from 60px */
   background: linear-gradient(
     to bottom,
     transparent,
-    rgba(255, 255, 255, 0.3),
+    rgba(255, 103, 103, 0.5),
     transparent
   );
-  margin-right: 1.5rem;
+  margin-right: 2rem;
+  transform: rotate(5deg);
 }
 
 .status-message {
-  font-size: 2.2rem;
-  font-weight: 700;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  font-size: 3rem; /* Increased from 2.2rem */
+  font-weight: 800;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   margin: 0;
+  background: linear-gradient(135deg, #ffffff, #cccccc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@keyframes errorFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(2deg);
+  }
 }
 
 .error-message {
@@ -382,17 +400,18 @@ const reportIssue = () => {
   }
 
   .status-code {
-    font-size: 4rem;
-    margin-right: 1rem;
+    font-size: 8rem;
+    margin-right: 1.5rem;
+    letter-spacing: -0.3rem;
   }
 
   .status-divider {
-    height: 50px;
-    margin-right: 1rem;
+    height: 80px;
+    margin-right: 1.5rem;
   }
 
   .status-message {
-    font-size: 1.8rem;
+    font-size: 2.5rem;
   }
 
   .error-message {
@@ -416,7 +435,9 @@ const reportIssue = () => {
   }
 
   .status-code {
+    font-size: 6rem;
     margin-right: 0;
+    letter-spacing: -0.2rem;
   }
 
   .status-divider {
@@ -426,7 +447,7 @@ const reportIssue = () => {
   }
 
   .status-message {
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
 
   .error-actions {
