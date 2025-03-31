@@ -29,4 +29,9 @@ export default defineNuxtConfig({
 
   plugins: ["~/plugins/fontawesome.js"],
   compatibilityDate: "2025-03-31",
+
+  runtimeConfig: {
+    MONGO_URI: process.env.MONGO_URI,
+    JWT_SECRET: process.env.JWT_SECRET,
+  },
 });
