@@ -15,4 +15,8 @@ export default defineNuxtConfig({
     },
   },
   plugins: ["~/plugins/fontawesome.js"],
+  runtimeConfig: {
+    MONGO_URI: process.env.MONGO_URI, // MongoDB connection string
+    JWT_SECRET: process.env.JWT_SECRET, // JWT secret
+  },
 });
