@@ -600,7 +600,6 @@ const topCasino = ref({
   left: 0;
   width: 100%;
   height: 100%;
-  background: url("/images/pattern-bg.png");
   background-size: 300px;
   opacity: 0.05;
   z-index: 0;

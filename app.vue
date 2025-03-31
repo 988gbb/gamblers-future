@@ -64,9 +64,6 @@ useHead({
 
     // Mask icon for Safari pinned tabs
     { rel: "mask-icon", href: "/images/gfuture-icon.png", color: "#f33535" },
-
-    // Manifest file
-    { rel: "manifest", href: "/manifest.webmanifest" },
   ],
   manifest: {
     name: "Gambler's Future",

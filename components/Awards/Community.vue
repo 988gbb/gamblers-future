@@ -59,7 +59,7 @@
           </div>
 
           <div class="cta-container">
-            <NuxtLink to="/register" class="cta-button">
+            <NuxtLink to="/login" class="cta-button">
               Get Your Referral Link
               <i class="fas fa-arrow-right"></i>
             </NuxtLink>

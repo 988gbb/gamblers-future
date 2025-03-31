@@ -134,7 +134,7 @@
                 Sign up for a free Gambler's Future account with verified
                 identity
               </p>
-              <NuxtLink to="/register" class="step-link">Register Now</NuxtLink>
+              <NuxtLink to="/login" class="step-link">Register Now</NuxtLink>
             </div>
           </div>
 

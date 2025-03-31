@@ -207,7 +207,7 @@
         </div>
 
         <div class="cta-container">
-          <NuxtLink to="/register" class="join-button">
+          <NuxtLink to="/login" class="join-button">
             <span>Become a Champion</span>
             <i class="fas fa-trophy"></i>
           </NuxtLink>
