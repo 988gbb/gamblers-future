@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { useRuntimeConfig } from "#imports";
 
 let isConnected = false; // Track the connection status
 
@@ -9,8 +8,10 @@ const connectDB = async () => {
     return;
   }
 
-  const config = useRuntimeConfig();
-  const mongoUri = config.MONGO_URI;
+  const mongoUri = process.env.MONGO_URI;
+
+  // Log the MONGO_URI to verify it's being loaded
+  console.log("MONGO_URI:", mongoUri);
 
   if (!mongoUri) {
     throw new Error("MONGO_URI is not defined in the environment variables.");
