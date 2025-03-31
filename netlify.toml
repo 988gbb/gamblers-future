@@ -8,3 +8,5 @@
 # Set timeout globally for all functions
 [functions.settings]
     timeout = 26
+[functions]
+  memory = 1024
