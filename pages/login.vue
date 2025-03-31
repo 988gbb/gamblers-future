@@ -31,7 +31,7 @@
             @click="setAuthMode(false)"
             :class="['tab-button', { active: !isLogin }]"
           >
-            Sign Up
+            Sign Up Today
           </button>
         </div>
 
