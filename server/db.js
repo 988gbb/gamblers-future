@@ -1,7 +1,14 @@
 import mongoose from "mongoose";
 import { useRuntimeConfig } from "#imports";
 
+let isConnected = false; // Track the connection status
+
 const connectDB = async () => {
+  if (isConnected) {
+    console.log("Using existing MongoDB connection");
+    return;
+  }
+
   const config = useRuntimeConfig();
   const mongoUri = config.MONGO_URI;
 
@@ -10,7 +17,8 @@ const connectDB = async () => {
   }
 
   try {
-    const conn = await mongoose.connect(mongoUri); // No options needed for modern drivers
+    const conn = await mongoose.connect(mongoUri);
+    isConnected = true; // Set the connection status to true
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
     console.error(`Error: ${error.message}`);

@@ -1,4 +1,10 @@
 [build.environment]
   NODE_VERSION = "18"
-  [functions]
+
+[functions]
   external_node_modules = ["mongoose"]
+  node_bundler = "esbuild"
+
+  # Set timeout globally for all functions
+  [functions.settings]
+    timeout = 26
